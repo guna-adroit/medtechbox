@@ -1,0 +1,96 @@
+<style>
+  .wishlist-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .wishlist-btn.added {
+    color: red;
+  }
+  div#wishlist-items {
+    display: flex;
+    padding: 30px 0;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+  .wishlist-container {
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+  }
+  .wishlist-item-image{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+  .wishlist-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    width: calc(33.33% - 15px);
+    padding: 10px;
+  }
+  .wishlist-item a {
+    text-decoration: none;
+    color: black;
+  }
+  .remove-wishlist {
+    background: #1ba5de;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 768px){
+    .wishlist-item {
+      width: calc(50% - 15px);
+    }
+    .wishlist-item-image{
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+    }
+  }
+</style>
+<div class="wishlist-container">
+  <h1>Your Wishlist</h1>
+  <div id="wishlist-items">
+    <p>Your wishlist is empty.</p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let wishlistItems = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const wishlistContainer = document.getElementById("wishlist-items");
+
+    function renderWishlist() {
+      wishlistContainer.innerHTML = wishlistItems.length
+        ? wishlistItems.map(item => `
+          <div class="wishlist-item">
+            <a href="${item.url}">
+              <img src="${item.image}" class="wishlist-item-image" alt="${item.title}" width="100">
+              <p>${item.title}</p>
+            </a>
+            <button class="remove-wishlist" data-handle="${item.handle}">Remove</button>
+          </div>
+        `).join("")
+        : "<p>Your wishlist is empty.</p>";
+
+      document.querySelectorAll(".remove-wishlist").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const handle = this.dataset.handle;
+          wishlistItems = wishlistItems.filter(item => item.handle !== handle);
+          localStorage.setItem("wishlist", JSON.stringify(wishlistItems));
+          renderWishlist();
+        });
+      });
+    }
+
+    renderWishlist();
+  });
+</script>

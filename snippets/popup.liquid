@@ -1,0 +1,117 @@
+<style>
+    dialog.hcp-modal {
+      max-width: 800px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
+      color: #0b1220;
+      animation: pop .18s ease;
+      text-align: center;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    dialog.hcp-modal::backdrop {
+      background: rgba(2,6,23,0.55);
+      animation: fade .18s ease;
+    }
+
+    body:has(dialog[open].hcp-modal) {
+      overflow: hidden;
+    }
+
+    .hcp-modal h2{
+        font-weight: 600;
+        color: #1ba5de;
+    }
+    .hcp-modal p strong{
+    }
+
+    .hcp-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #333;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .hcp-close:hover {
+      color: var(--accent);
+    }
+
+    @keyframes pop {
+      from { transform: translateY(6px) scale(.98); opacity: 0 }
+      to { transform: translateY(0) scale(1); opacity: 1 }
+    }
+
+    @keyframes fade {
+      from { opacity: 0 } 
+      to { opacity: 1 }
+    }
+
+    @media (max-width:820px) {
+      dialog.hcp-modal { width: 92vw }
+    }
+    
+    @media (max-width:600px) {
+      dialog.hcp-modal { width: 92vw }
+    }
+  </style>
+  <div class="hcp-modal-container">
+
+    <dialog class="hcp-modal" id="hcp-modal">
+      <button class="hcp-close" id="hcp-close" aria-label="Close">&times;</button>
+      <h2>Welcome to MedTech Marketplace</h2>
+      <p>You’ve been redirected here because the <strong>Revolution Surgical Shop</strong> has now migrated to <strong>MedTech Marketplace.</strong></p>
+      <p>All your favourite <strong>products, prices, and service remain exactly the same</strong> — they’re just now part of our new and improved online home.</p>
+      <p><strong>MedTech Marketplace brings the healthcare community and the MedTech industry together — connecting and transacting in one smart, central platform.</strong></p>
+      <p><strong>Browse the full range</strong> and continue shopping as usual.</p>
+    </dialog>
+
+  </div>
+
+  <script>
+    const hcpModal = document.getElementById('hcp-modal');
+    const closeBtn = document.getElementById('hcp-close');
+    const popupSeen = localStorage.getItem('hcpPopupSeen');
+
+    if (!popupSeen) {
+      if (typeof hcpModal.showModal === 'function') {
+        hcpModal.showModal();
+      } else {
+        hcpModal.setAttribute('open', '');
+      }
+
+      closeBtn.addEventListener('click', () => {
+        localStorage.setItem('hcpPopupSeen', 'true');
+        hcpModal.close();
+      });
+
+      hcpModal.addEventListener('click', (event) => {
+        const rect = hcpModal.getBoundingClientRect();
+        const isInDialog = (
+          event.clientX >= rect.left &&
+          event.clientX <= rect.right &&
+          event.clientY >= rect.top &&
+          event.clientY <= rect.bottom
+        );
+        if (!isInDialog) {
+          localStorage.setItem('hcpPopupSeen', 'true');
+          hcpModal.close();
+        }
+      });
+
+     
+      hcpModal.addEventListener('close', () => {
+        localStorage.setItem('hcpPopupSeen', 'true');
+      });
+    }
+  </script>

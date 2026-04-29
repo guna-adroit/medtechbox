@@ -1,0 +1,150 @@
+<style>
+        
+</style>
+
+    <div class="mt-image-with-text-wrapper mt-image-with-text-wrapper-{{section.id}}">
+        <div class="mt-image-with-text-container {{section.settings.image_alignment}}">
+            <div class="mt-image-with-text__image-block">
+                <div class="mt-image-with-text__image-container">
+                    {% if section.settings.image != blank %}
+                    {{ section.settings.image | image_url: width: 900 | image_tag }}
+                    {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'image-with-text-placeholder-image' }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-image-with-text__text-block " style="background-color: {{ section.settings.bg_color }};">
+                <div class="mt-image-with-text__text-container {% if section.settings.image_alignment == 'right' %} left-content-padding {% else %} right-content-padding {% endif %}">
+                    <h2 style="color: {{ section.settings.text_color }};">{{section.settings.title}}</h2>
+                    {% if section.settings.subheading != blank %}
+                    <p class="mt-subheading" style="color: {{ section.settings.text_color }};">{{section.settings.subheading}}</p>
+                    {% endif %}
+                    {% if section.settings.description != blank %}
+                        <p class="mt-description" style="color: {{ section.settings.text_color }};">
+                          {{ section.settings.description | newline_to_br }}
+                        </p>
+                    {% endif %}
+                    {% if section.settings.button_text != blank %}
+                    <a href="{{ section.settings.button_link }}" class="btn">{{section.settings.button_text}}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+  function updatePadding() {
+     if (window.innerWidth > 1600) {
+        var paddingLeft = (window.innerWidth - 1600) / 2;
+        paddingLeft = paddingLeft > 0 ? paddingLeft : 0; // Ensure padding is not negative
+        document.querySelectorAll(".left-content-padding").forEach(el => {
+            el.style.padding = "50px";
+            el.style.paddingLeft = paddingLeft + "px";
+            el.style.paddingRight = paddingLeft/2 + "px";
+        });
+     }
+     else if(window.innerWidth < 1600 && window.innerWidth >= 1024){
+        var paddingLeft = (window.innerWidth - 1600) / 2;
+        paddingLeft = paddingLeft > 0 ? paddingLeft : 0; // Ensure padding is not negative
+        paddingLeft = paddingLeft + 50;
+        document.querySelectorAll(".left-content-padding").forEach(el => {
+            el.style.padding = "50px";
+            el.style.paddingLeft = paddingLeft + "px";
+            el.style.paddingRight = paddingLeft/2 + "px";
+        });
+    }
+    else if (window.innerWidth < 768) {
+      document.querySelectorAll(".left-content-padding").forEach(el => {
+            el.style.padding = "50px 20px";
+            el.style.paddingLeft = "0px";
+        });
+    }
+    else{
+      document.querySelectorAll(".left-content-padding").forEach(el => {
+            el.style.padding = "50px";
+            el.style.paddingLeft = "0px";
+        });
+    }
+}
+
+// Call on page load
+updatePadding();
+
+// Update on window resize
+window.addEventListener("resize", updatePadding);
+</script>
+    {% schema %}
+        {
+            "name": "Custom Image with text",
+            "tag": "section",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "select",
+                    "id": "image_alignment",
+                    "label": "Image alignment",
+                    "options": [
+                        {
+                        "value": "left",
+                        "label": "Left"
+                        },
+                        {
+                        "value": "right",
+                        "label": "right"
+                        }
+                    ],
+                    "default": "left"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Heading",
+                    "default": "Heading Text Here"
+                },
+                {
+                    "type": "inline_richtext",
+                    "id": "subheading",
+                    "default": "my <i>inline</i> <b>text</b>",
+                    "label": "Content"
+                },
+                {
+                    "type": "textarea",
+                    "id": "description",
+                    "label": "Description",
+                    "default": "Lorem ipsum dolar sit amit."
+                },
+                {
+                    "type": "text",
+                    "id": "button_text",
+                    "label": "Button Text",
+                    "default": "Button Text"
+                },
+                {
+                    "type": "url",
+                    "id": "button_link",
+                    "label": "Button link"
+                },
+                {
+                    "type": "color",
+                    "id": "bg_color",
+                    "label": "Background Color",
+                    "default": "#444444"
+                },
+                {
+                    "type": "color",
+                    "id": "text_color",
+                    "label": "text Color",
+                    "default": "#ffffff"
+                }
+            ],
+            "presets": [
+                {
+                    "name": "Custom Image with text"
+                }
+            ]
+        }
+    {% endschema %}
+    

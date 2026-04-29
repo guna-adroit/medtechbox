@@ -1,0 +1,81 @@
+<style>
+        
+        
+    </style>
+    <div class="mt-image-banner-wrapper">
+        <div class="mt-image-banner-container">
+            <div class="mt-image-banner__image-block">
+                {% if section.settings.image != blank %}
+                    {{ section.settings.image | image_url: width: 900 | image_tag }}
+                {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'image-with-text-placeholder-image' }}
+                {% endif %}
+            </div>
+            <div class="mt-image-banner__text-block page-width">
+                <div class="mt-image-banner__text-inner">
+                    <h2 class="mt-section-block-title">{{ section.settings.title }}</h2>
+                    {% if section.settings.subheading != blank %}
+                        <p class="mt-section-block-subheading">{{ section.settings.subheading }}</p>
+                    {% endif %}
+                    {% if section.settings.button_text != blank %}
+                        <a href="{{ section.settings.button_link }}" class="btn">{{ section.settings.button_text }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% schema %}
+        {
+            "name": "Image Banner",
+            "tag": "section",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image"
+                },
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Heading",
+                    "default": "Heading Text Here"
+                },
+                {
+                    "type": "inline_richtext",
+                    "id": "subheading",
+                    "default": "my <i>inline</i> <b>text</b>",
+                    "label": "Content"
+                },
+                {
+                    "type": "text",
+                    "id": "button_text",
+                    "label": "Button Text",
+                    "default": "Button Text"
+                },
+                {
+                    "type": "url",
+                    "id": "button_link",
+                    "label": "Button link"
+                },
+                {
+                    "type": "color",
+                    "id": "bg_color",
+                    "label": "Background Color",
+                    "default": "#444444"
+                },
+                {
+                    "type": "color",
+                    "id": "text_color",
+                    "label": "text Color",
+                    "default": "#ffffff"
+                }
+            ],
+            "presets": [
+                {
+                    "name": "Image Banner"
+                }
+            ]
+        }
+    {% endschema %}
+    

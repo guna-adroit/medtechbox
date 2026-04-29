@@ -1,0 +1,250 @@
+<style>
+  .not-found-container-custom {
+    position: relative;
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 40px 20px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .not-found-background-text-custom {
+    position: relative;
+    font-size: clamp(100px, 30vw, 400px);
+    font-weight: 900;
+    color: {{ section.settings.background_text_color }};
+    z-index: 1;
+    user-select: none;
+    line-height: 1;
+    margin-bottom: 40px;
+    transition: transform 0.5s ease, text-shadow 0.5s ease;
+  }
+  
+  .not-found-container-custom:hover .not-found-background-text-custom {
+    transform: scale(1.01);
+    text-shadow: 0px 5px 10px {{ section.settings.text_glow_color }};
+  }
+
+  .not-found-content-custom {
+    position: relative;
+    z-index: 3;
+    text-align: center;margin-top: 20px;
+  }
+
+  .not-found-title-custom {
+    font-size:24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: {{ section.settings.content_text_color }};
+  }
+
+  .not-found-description-custom {
+    font-size: 16px;
+    margin-bottom: 24px;
+    color: {{ section.settings.content_text_color }};
+  }
+  
+  .not-found-buttons-custom {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .not-found-button-custom {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  .not-found-button-custom:hover {
+    background-color: {{ section.settings.button_hover_color }};
+    transform: translateY(-2px);
+  }
+  .not-found-button-secondary-custom {
+    background-color: {{ section.settings.secondary_button_color }};
+    color: {{ section.settings.secondary_button_text_color }};
+  }
+  
+  .not-found-button-secondary-custom:hover {
+    background-color: {{ section.settings.secondary_button_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .not-found-buttons-custom {
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .not-found-button-custom {
+      width: 100%;
+      text-align: center;
+    }
+  }
+</style>
+<div class="not-found-container-custom" {{ section.shopify_attributes }}>
+  <div class="not-found-background-text-custom">{{ section.settings.background_text }}</div>
+  
+  <div class="not-found-content-custom">
+    {% if section.settings.show_content %}
+      <h1 class="not-found-title-custom">{{ section.settings.title }}</h1>
+      <p class="not-found-description-custom">{{ section.settings.description }}</p>
+    {% endif %}
+    <div class="not-found-buttons-custom">
+      <a href="{{ section.settings.primary_button_link }}" class="not-found-button-custom">
+        {{ section.settings.primary_button_text }}
+      </a>
+      <a href="{{ section.settings.secondary_button_link }}" class="not-found-button-custom not-found-button-secondary-custom">
+        {{ section.settings.secondary_button_text }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page Not Found",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "background_text",
+      "label": "Background text",
+      "default": "404"
+    },
+    {
+      "type": "color",
+      "id": "background_text_color",
+      "label": "Text color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "text_glow_color",
+      "label": "Text glow color (on hover)",
+      "default": "#000f9f"
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_content",
+      "label": "Show additional content",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Page not found"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "The page you were looking for does not exist."
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Content text color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Primary Button"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "Text",
+      "default": "Continue shopping"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button color",
+      "default": "#000f9f"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Hover color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Secondary Button"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Text",
+      "default": "Back to home"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Link",
+      "default": "/"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_color",
+      "label": "Button color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_color",
+      "label": "Hover color",
+      "default": "#e0e0e0"
+    }
+  ],
+  "presets": [
+    {
+      "name": "404 Page Not Found"
+    }
+  ]
+}
+{% endschema %}

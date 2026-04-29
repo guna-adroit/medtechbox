@@ -1,0 +1,1099 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+<style>
+  .custom-sort {
+    position: relative;
+    display: inline-block;
+}
+.sort-desk-btn {
+    background: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #222;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    text-transform: none !important;
+    line-height: 24px; /* 171.429% */
+}
+.sort-desk-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0px;
+  background: white;
+  border: 1px solid #ddd;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  width: 200px;
+  z-index: 1111;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.sort-desk-dropdown li {
+    padding: 4px 10px;
+    cursor: pointer;
+}
+.sort-desk-dropdown li:hover {
+    background: #eee;
+}
+.sort-hidden {
+    display: none;
+}
+.active-sort {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+</style>
+
+<script src="{{ 'ajaxinate.min.js' | asset_url }}" ></script> 
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless section.settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+{%- endunless -%}
+
+{%- if section.settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
+    
+
+    <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
+      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+      
+      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        <aside
+          aria-labelledby="verticalTitle"
+          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+          id="main-collection-filters"
+          data-id="{{ section.id }}"
+        >
+          {% render 'facets',
+            results: collection,
+            enable_filtering: section.settings.enable_filtering,
+            enable_sorting: section.settings.enable_sorting,
+            filter_type: section.settings.filter_type,
+            paginate: paginate
+          %}
+        </aside>
+      {%- endif -%}
+
+      <div
+        class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        id="ProductGridContainer"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+        {% endif %}
+      >
+        {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
+      <facet-filters-form class="facets facets-vertical-sort small-hide">
+        <form class="facets-vertical-form" id="FacetSortForm">
+          <div class="product-count-vertical " role="status">
+            <h2 class="product-count__text text-body">
+              <span id="collectionProductCount">{{ collection.products_count }}</span> Products
+              {% comment %} <span id="ProductCountDesktop">
+                {%- if collection.results_count -%}
+                  {{
+                    'templates.search.results_with_count'
+                    | t: terms: collection.terms, count: collection.results_count
+                  }}
+                {%- elsif collection.products_count == collection.all_products_count -%}
+                  {{ 'products.facets.product_count_simple' | t: count: collection.products_count }}
+                {%- else -%}
+                  {{
+                    'products.facets.product_count'
+                    | t: product_count: collection.products_count, count: collection.all_products_count
+                  }}
+                {%- endif -%}
+              </span> {% endcomment %}
+            </h2>
+            {%- render 'loading-spinner' -%}
+          </div>
+          <div class="facet-filters sorting caption">
+            <div class="view-types-container">
+              <div class="product-grid-view-btn view-btns">
+                {{ 'icon-grid-view.svg' | inline_asset_content }}
+              </div>
+              <div class="product-list-view-btn view-btns">
+                {{ 'icon-list-view.svg' | inline_asset_content }}
+              </div>
+              <div class="product-list-view-2-btn view-btns">
+                {{ 'icon-list-view-2.svg' | inline_asset_content }}
+              </div>
+            </div>
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            {% liquid
+            
+              assign sort_by = collection.sort_by | default: collection.default_sort_by
+              assign defaultsort = ''
+            
+              case sort_by
+                when 'manual'
+                  assign defaultsort = 'Featured'
+                when 'best-selling'
+                  assign defaultsort = 'Best sellers'
+                when 'title-ascending'
+                  assign defaultsort = 'Alphabetically, A-Z'
+                when 'title-descending'
+                  assign defaultsort = 'Alphabetically, Z-A'
+                when 'price-ascending'
+                  assign defaultsort = 'Price, low to high '
+                when 'price-descending'
+                  assign defaultsort = 'Price, high to low'
+                when 'created-descending'
+                  assign defaultsort = 'Date, old to new'
+                when 'created-ascending'
+                  assign defaultsort = 'Date, new to old'
+                else
+                  assign defaultsort = 'Best sellers'
+              endcase
+            
+            
+            %}
+            <div class="sort-by-button">
+              <div class="custom-sort">
+                <span id="sortDeskButton" class="sort-desk-btn">Sort By : {{ defaultsort }} </span>
+                <ul id="sortDeskDropdown" class="sort-desk-dropdown sort-hidden">
+                    <li data-sort="manual" {%- if "manual" == sort_by %} selected="selected"{%- endif %} >Featured</li>
+                    <li data-sort="best-selling" {%- if "best-selling" == sort_by %} selected="selected"{%- endif %} >Best sellers</li>
+                    <li data-sort="title-ascending" {%- if "title-ascending" == sort_by %} selected="selected"{%- endif %}>Alphabetically, A-Z</li>
+                    <li data-sort="title-descending" {%- if "title-descending" == sort_by %} selected="selected"{%- endif %}>Alphabetically, Z-A</li>
+                    <li data-sort="price-ascending" {%- if "price-ascending" == sort_by %} selected="selected"{%- endif %}>Price, low to high </li>
+                    <li data-sort="price-descending" {%- if "price-descending" == sort_by %} selected="selected"{%- endif %}>Price, high to low</li>
+                    <li data-sort="created-descending" {%- if "created-descending" == sort_by %} selected="selected"{%- endif %}>Date, old to new</li>
+                    <li data-sort="created-ascending" {%- if "created-ascending" == sort_by %} selected="selected"{%- endif %}>Date, new to old </li>
+                </ul>
+            </div>
+           </div>
+
+            {% comment %} <div class="facet-filters__field">
+              <h2 class="facet-filters__label caption-large text-body">
+                <label for="SortBy">Sort By</label>
+              </h2>
+              <div class="facets-filters__colon">:</div>
+              <div class="select">
+                {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+                <select
+                  name="sort_by"
+                  class="facet-filters__sort select__select caption-large"
+                  id="SortBy"
+                  aria-describedby="a11y-refresh-page-message"
+                >
+                  {% comment %} {%- for option in collection.sort_options -%}
+                    <option
+                      value="{{ option.value | escape }}"
+                      {% if option.value == sort_by %}
+                        selected="selected"
+                      {% endif %}
+                    >
+                      {{ option.name | escape }}
+                    </option>
+                  {%- endfor -%} {% endcomment %}
+                  <option value="manual" {% if "manual" == sort_by %}selected="selected"{% endif %}>Featured </option>
+                  <option value="best-selling" {% if "best-selling" == sort_by %}selected="selected"{% endif %}>Best sellers </option>
+                  <option value="title-ascending" {% if "title-ascending" == sort_by %}selected="selected"{% endif %}>Alphabetically, A-Z </option>
+                  <option value="title-descending" {% if "title-descending" == sort_by %}selected="selected"{% endif %}>Alphabetically, Z-A </option>
+                  <option value="price-ascending" {% if "price-ascending" == sort_by %}selected="selected"{% endif %}>Price, low to high </option>
+                  <option value="price-descending" {% if "price-descending" == sort_by %}selected="selected"{% endif %}>Price, high to low </option>
+                  <option value="created-ascending" {% if "created-ascending" == sort_by %}selected="selected"{% endif %}>Date, old to new </option>
+                  <option value="created-descending" {% if "created-descending" == sort_by %}selected="selected"{% endif %}>Date, new to old </option>
+                </select>
+                {% comment %} <span class="svg-wrapper">
+                  {{- 'icon-caret.svg' | inline_asset_content -}}
+                </span> {% endcomment %}
+              </div>
+            </div> {% endcomment %}
+
+          </div>
+
+          
+        </form>
+      </facet-filters-form>
+    {%- endif -%}
+        {%- if collection.products.size == 0 -%}
+          <div class="collection collection--empty page-width" id="product-grid" data-id="{{ section.id }}">
+            <div class="loading-overlay gradient"></div>
+            <div class="title-wrapper center">
+              <h2 class="title title--primary">
+                {{ 'sections.collection_template.empty' | t -}}
+                <br>
+                {{
+                  'sections.collection_template.use_fewer_filters_html'
+                  | t: link: collection.url, class: 'underlined-link link'
+                }}
+              </h2>
+            </div>
+          </div>
+        {%- else -%}
+          <div
+            class="collection {% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+          >
+            <div class="loading-overlay gradient"></div>
+            <ul
+              id="product-grid"
+              data-id="{{ section.id }}"
+              class="
+                grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+                grid--{{ section.settings.columns_desktop }}-col-desktop
+                {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
+              "
+            >
+              {% assign skip_card_product_styles = false %}
+              {%- for product in collection.products -%}
+                {% assign lazy_load = false %}
+                {%- if forloop.index > 2 -%}
+                  {%- assign lazy_load = true -%}
+                {%- endif -%}
+                {% unless product.tags contains 'hidden' %}
+                  
+                <li
+                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    style="--animation-order: {{ forloop.index }};"
+                  {% endif %}
+                >
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: section.settings.image_ratio,
+                    image_shape: section.settings.image_shape,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    lazy_load: lazy_load,
+                    skip_styles: skip_card_product_styles,
+                    quick_add: section.settings.quick_add,
+                    section_id: section.id
+                  %}
+                </li>
+                {% endunless %}
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}
+            </ul>
+
+            {%- if paginate.pages > 1 -%}
+              {% render 'pagination', paginate: paginate, anchor: '' %}
+            {%- endif -%} 
+            
+            <div class="collection-info-bottom">
+              <div class="collection-products-count-wrapper">
+                <p class="product-count">Showing <span id="product-count">3 products found</span> out of {{ collection.products_count }} products</p>
+              </div>
+              <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+              </div>
+            </div>
+            <div id="AjaxinatePagination" class="collection-load-more-wrapper">
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="btn collection-load-more" id="myBtn"><span class="collection-load-more-btn">Load More Products</span></a>
+              {% endif %}
+            </div>
+            
+            {% comment %} {% if paginate.next %}
+            {%- if paginate.pages > 1 -%}
+            
+                  <div class="product-count">
+                    <span id="products-shown">Showing 0 out of {{ collection.products_count }} products</span>
+                    
+                  </div>
+                </div>
+                <div class="progress-container">
+                  <div id="progress-bar" class="progress-bar"></div>
+                </div>
+              
+                
+            </div>
+            {% endif %}
+          {%- endif -%}  {% endcomment %}
+            
+            </div>
+        {%- endif -%}
+      </div>
+      
+    </div>
+    
+    
+  {%- endpaginate -%}
+  {% if section.settings.image_shape == 'arch' %}
+    {{ 'mask-arch.svg' | inline_asset_content }}
+  {%- endif -%}
+</div>
+
+
+  
+{% comment %} <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    localStorage.removeItem("productsCount");
+    window.totalproductsCount = {{ collection.products_count }}; 
+    const productsCount = window.totalproductsCount; 
+    window.productDisplay = {{ section.settings.products_per_page  }}; 
+    var productsDisplayed = window.productDisplay; 
+
+    const productCountElement = document.getElementById('products-shown');
+    const progressBar = document.getElementById('progress-bar');
+
+  function updateProductCount(productsDisplayed) {
+    if(productsDisplayed <= productsCount){
+      productCountElement.innerHTML = `Showing ${productsDisplayed} out of ${productsCount} products`;
+    }
+    else if (productsDisplayed > productsCount) {
+      productCountElement.innerHTML = `Showing ${productsCount} out of ${productsCount} products`;
+    }
+    else{
+      productCountElement.innerHTML = `Showing ${productsDisplayed} out of ${productsCount} products`;
+    }
+    console.log(" Product"+ productsDisplayed);
+    const progress = (productsDisplayed / productsCount) * 100;
+    progressBar.style.width = `${progress}%`;
+  }
+
+  const loadMoreButton = document.querySelector('.collection-load-more'); 
+
+  function updateProductCounts() {
+    let productCount = document.querySelectorAll("#product-grid > li").length;
+    document.getElementById("product-count").textContent = "Total Products: " + productCount;
+}
+
+updateProductCounts();
+  
+  // if (loadMoreButton) {
+    loadMoreButton.addEventListener('click', function() {
+     console.log("Load more button clicked");
+     console.log("Current Product"+ productsDisplayed);
+      productsDisplayed += {{ section.settings.products_per_page  }}; 
+      console.log("Updated Product"+ productsDisplayed);
+      updateProductCount(productsDisplayed);
+      setTimeout(updateProductCounts, 1000);
+      localStorage.setItem("productsCount", productsDisplayed);
+    });
+  // }
+  
+  updateProductCount(productsDisplayed);
+});
+
+</script> {% endcomment %}
+{% comment %} <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // let loadMoreButton = document.querySelector(".collection-load-more-btn");
+    const loadMoreButton = document.getElementById("myBtn");
+    loadMoreButton.addEventListener("click", function(event) {
+      event.preventDefault(); 
+      console.log("Button Clicked");
+    });
+    let observer = new MutationObserver(() => {
+      setTimeout(function() {
+        if (!document.querySelector(".ajaxinate__load-more")) {
+            console.log("Final page reached (detected via MutationObserver).");
+        }
+        }, 1500)
+    });
+    if (loadMoreButton) {
+      
+        observer.observe(loadMoreButton.parentElement, { childList: true });
+      
+    }
+    var endlessScroll = new Ajaxinate({
+      method: 'click', // Change to 'click' if you want a button instead
+      container: '#product-grid',
+      pagination: '#AjaxinatePagination',
+      callback: function(){
+        setTimeout(function() {
+          var pageCount = 1;
+          var pages = {{collection.products_count}} / 16;
+          pages = Math.ceil(pages);
+          console.log(pages);
+          currentCount = document.querySelectorAll("#product-grid .grid__item").length;
+          console.log("currentCount: "+currentCount);
+          const productCountElement = document.getElementById('products-shown');
+          const productsCount = {{ collection.products_count }}; 
+
+          const progressBar = document.getElementById('progress-bar');
+
+          if(productsDisplayed <= productsCount){
+            productCountElement.innerHTML = `Showing ${currentCount} out of ${productsCount} products`;
+          }
+          else if (productsDisplayed > productsCount) {
+            productCountElement.innerHTML = `Showing ${productsCount} out of ${productsCount} products`;
+          }
+          else{
+            productCountElement.innerHTML = `Showing ${currentCount} out of ${productsCount} products`;
+          }
+
+         
+
+          const progress = (currentCount / productsCount) * 100;
+          progressBar.style.width = `${progress}%`;
+          var currentPageUrl = document.querySelector(".collection-load-more").getAttribute("href");
+          const urlParams = new URLSearchParams(currentPageUrl.toString().split('?')[1]);
+          var currentPageNo = urlParams.get('page');
+          
+          console.log(currentPageNo);
+          if(currentPageNo >= pages){
+            console.log("No more pages");
+          }
+        }, 900);
+       
+      }
+      
+    });
+  });
+</script> {% endcomment %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    function initializeViewButtons() {
+      const viewButtons = document.querySelectorAll(".view-btns");
+      const collectionDiv = document.querySelector(".collection");
+  
+      if (!collectionDiv || viewButtons.length === 0) return;
+  
+      // Get the last selected view mode from localStorage
+      const savedView = localStorage.getItem("selectedView");
+      console.log("view:"+savedView);
+      if(savedView == null){
+        document.querySelector(".product-grid-view-btn").classList.add("active");
+        console.log("added");
+      }
+  
+      if (savedView) {
+        // Remove 'active' class from all buttons
+        viewButtons.forEach(btn => btn.classList.remove("active"));
+  
+        // Find and activate the last selected button
+        const activeButton = document.querySelector(`.${savedView}`);
+        if (activeButton) {
+          activeButton.classList.add("active");
+        }
+  
+        // Apply the correct class to the collection div
+        collectionDiv.classList.remove("product-list-view", "product-list-view-2");
+  
+        if (savedView === "product-list-view-btn") {
+          collectionDiv.classList.add("product-list-view");
+        } else if (savedView === "product-list-view-2-btn") {
+          collectionDiv.classList.add("product-list-view-2");
+        }
+      }
+  
+      viewButtons.forEach(button => {
+        button.addEventListener("click", function () {
+          // Remove 'active' class from all buttons
+          viewButtons.forEach(btn => btn.classList.remove("active"));
+  
+          // Add 'active' class to the clicked button
+          this.classList.add("active");
+  
+          // Store selected view mode in localStorage using full class name
+          localStorage.setItem("selectedView", this.classList[0]); // Stores "product-grid-view-btn", "product-list-view-btn", etc.
+  
+          // Handle view changes on .collection div
+          collectionDiv.classList.remove("product-list-view", "product-list-view-2");
+  
+          if (this.classList.contains("product-list-view-btn")) {
+            collectionDiv.classList.add("product-list-view");
+          } else if (this.classList.contains("product-list-view-2-btn")) {
+            collectionDiv.classList.add("product-list-view-2");
+          }
+        });
+      });
+    }
+  
+    // Initialize on first page load
+    initializeViewButtons();
+  
+    // MutationObserver to watch for changes in the collection container
+    const observer = new MutationObserver(() => {
+      initializeViewButtons(); // Reinitialize buttons when the collection updates
+    });
+  
+    observer.observe(document.body, { childList: true, subtree: true });
+  
+    // Also reinitialize when Shopify sections reload (as a backup)
+    document.addEventListener("shopify:section:load", initializeViewButtons);
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var endlessScroll = new Ajaxinate({
+      method: 'scroll', // Change to 'click' if you want a button instead
+      container: '#product-grid',
+      pagination: '#AjaxinatePagination',
+      callback: function(){
+        setTimeout(function() {
+          const totalProductsElement = document.getElementById('collectionProductCount');
+          const totalProducts = totalProductsElement ? parseInt(totalProductsElement.textContent, 10) : 0;
+        
+          // Count visible products
+          const products = document.querySelectorAll('#product-grid > li');
+          const productCount = products.length;
+        
+          // Display the count somewhere if needed
+          const countElement = document.getElementById('product-count');
+          if (countElement) {
+            countElement.textContent = `${productCount}`;
+          }
+        
+          // Calculate percentage
+          const percentage = totalProducts > 0 ? (productCount / totalProducts) * 100 : 0;
+        
+          // Update progress bar width
+          const progressBar = document.getElementById('progress-bar');
+          if (progressBar) {
+            progressBar.style.width = `${percentage}%`;
+          }
+            document.dispatchEvent(new CustomEvent("swym:collections-loaded"));
+        }, 900);
+       
+      }
+      
+    });
+    });
+
+</script>
+<script>
+  function updateProductCount() {
+    const totalProductsElement = document.getElementById('collectionProductCount');
+    const totalProducts = totalProductsElement ? parseInt(totalProductsElement.textContent, 10) : 0;
+  
+    // Count visible products
+    const products = document.querySelectorAll('#product-grid > li');
+    const productCount = products.length;
+  
+    // Display the count somewhere if needed
+    const countElement = document.getElementById('product-count');
+    if (countElement) {
+      countElement.textContent = `${productCount}`;
+    }
+  
+    // Calculate percentage
+    const percentage = totalProducts > 0 ? (productCount / totalProducts) * 100 : 0;
+  
+    // Update progress bar width
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+      progressBar.style.width = `${percentage}%`;
+    }
+  }
+
+  // Run once when page loads
+  document.addEventListener('DOMContentLoaded', updateProductCount);
+</script>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+
+
+      const sortDeskButton = document.getElementById("sortDeskButton");
+      const sortDeskDropdown = document.getElementById("sortDeskDropdown");
+      const sortOptions = document.querySelectorAll("#sortDeskDropdown li");
+  
+      // Get current URL parameters to highlight the selected option
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentSort = urlParams.get("sort_by");
+
+      function updateURL(sortBy) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("sort_by", sortBy);
+        window.history.pushState({}, "", url); // Update the browser URL without refreshing
+        console.log("URL updated");
+    }
+  
+      // Highlight the current sort option on page load
+      if (currentSort) {
+          sortOptions.forEach(option => {
+              if (option.getAttribute("data-sort") === currentSort) {
+                  option.classList.add("active-sort");
+                  sortDeskButton.textContent = `Sort By : ${option.textContent}`;
+              }
+          });
+      }
+  
+      // Toggle dropdown on button click
+      sortDeskButton.addEventListener("click", function() {
+          sortDeskDropdown.classList.toggle("sort-hidden");
+      });
+  
+      // Handle sort option click
+      sortOptions.forEach(item => {
+          item.addEventListener("click", function() {
+              const selectedSort = this.getAttribute("data-sort");
+              sortDeskDropdown.classList.add("sort-hidden");
+              sortDeskButton.textContent = `Sort By : ${this.textContent}`;
+              updateURL(selectedSort);
+  
+              // Remove active class from all options & add to the selected one
+              sortOptions.forEach(option => option.classList.remove("active-sort"));
+              this.classList.add("active-sort");
+  
+              // Update URL and fetch new sorted products via AJAX
+              const url = new URL(window.location.href);
+              url.searchParams.set("sort_by", selectedSort);
+            console.log("sort clicked");
+
+            // Clear existing product grid before replacing with new sorted items
+            const oldGrid = document.querySelector(".product-grid");
+            if (oldGrid) {
+              const newEmptyGrid = oldGrid.cloneNode(false); // clone structure without children
+              oldGrid.parentNode.replaceChild(newEmptyGrid, oldGrid);
+            }
+  
+              fetch(url)
+  .then(response => response.text())
+  .then(data => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(data, "text/html");
+
+    const newProducts = doc.querySelector(".product-grid");
+    const newPagination = doc.querySelector("#AjaxinatePagination");
+    console.log("DOMparsed")
+    if (newProducts) {
+      console.log("Fetch DOMparsed");
+      document.querySelector(".product-grid").innerHTML = newProducts.innerHTML;
+
+      // Replace or append pagination
+      const existingPagination = document.querySelector("#AjaxinatePagination");
+      if (existingPagination) {
+        existingPagination.remove(); // Remove before replacing to avoid duplicates
+      }
+
+      if (newPagination) {
+        const productGrid = document.querySelector("#product-grid");
+        if (productGrid && newPagination) {
+          productGrid.insertAdjacentElement("afterend", newPagination);
+        }
+
+        var endlessScroll = new Ajaxinate({
+          method: 'scroll', // Change to 'click' if you want a button instead
+          container: '#product-grid',
+          pagination: '#AjaxinatePagination',
+          callback: function(){
+            setTimeout(function() {
+              const totalProductsElement = document.getElementById('collectionProductCount');
+              const totalProducts = totalProductsElement ? parseInt(totalProductsElement.textContent, 10) : 0;
+            
+              // Count visible products
+              const products = document.querySelectorAll('#product-grid > li');
+              const productCount = products.length;
+            
+              // Display the count somewhere if needed
+              const countElement = document.getElementById('product-count');
+              if (countElement) {
+                countElement.textContent = `${productCount}`;
+              }
+            
+              // Calculate percentage
+              const percentage = totalProducts > 0 ? (productCount / totalProducts) * 100 : 0;
+            
+              // Update progress bar width
+              const progressBar = document.getElementById('progress-bar');
+              if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+              }
+              document.dispatchEvent(new CustomEvent("swym:collections-loaded"));
+            }, 900);
+           
+          }
+          
+        });
+      }
+
+      // Update counts
+      const newCount = document.querySelectorAll("#product-grid > li").length;
+      updateProductCount(newCount);
+      updateProductCountsText();
+      setTimeout(() => {
+          new Ajaxinate({
+          method: 'scroll',
+          container: '#product-grid',
+          pagination: '#AjaxinatePagination',
+          callback: function () {
+            setTimeout(() => {
+              const currentCount = document.querySelectorAll("#product-grid .grid__item").length;
+              updateProductCount(currentCount);
+              updateProductCountsText();
+      
+              const nextLink = document.querySelector("#AjaxinatePagination a");
+              if (!nextLink) {
+                document.getElementById("AjaxinatePagination")?.remove();
+                console.log("No more pages — scroll pagination removed.");
+              }
+              document.dispatchEvent(new CustomEvent("swym:collections-loaded"));
+            }, 900);
+          }
+        });
+      }, 200);
+      function initializeAjaxinate() {
+        new Ajaxinate({
+          method: 'scroll',
+          container: '#product-grid',
+          pagination: '#AjaxinatePagination',
+          callback: function () {
+            setTimeout(() => {
+              const currentCount = document.querySelectorAll("#product-grid .grid__item").length;
+              updateProductCount(currentCount);
+              updateProductCountsText();
+
+              const nextLink = document.querySelector("#AjaxinatePagination a");
+              if (!nextLink) {
+                document.getElementById("AjaxinatePagination")?.remove();
+                console.log("No more pages — scroll pagination removed.");
+              }
+              document.dispatchEvent(new CustomEvent("swym:collections-loaded"));
+            }, 900);
+          }
+        });
+      }
+
+      // ✅ Wait for DOM update before reinitializing
+      setTimeout(() => {
+        if (document.querySelector("#AjaxinatePagination a")) {
+          initializeAjaxinate(); // Will re-bind scroll event
+          console.log("Ajaxinate reinitialized after sort");
+        } else {
+          console.log("No pagination link — Ajaxinate not reinitialized");
+        }
+      }, 200);
+
+      
+    }
+  })
+  .catch(error => console.error("Error fetching sorted products:", error));
+          });
+      });
+  
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function(event) {
+          if (!sortDeskButton.contains(event.target) && !sortDeskDropdown.contains(event.target)) {
+              sortDeskDropdown.classList.add("sort-hidden");
+          }
+      });
+  });
+  </script>
+  
+
+
+<script defer>
+  function swymCallbackFn(swat){
+    document.addEventListener("swym:collections-loaded", function(){
+      swat.initializeActionButtons(".product-grid");
+    })
+  }
+  if(!window.SwymCallbacks){
+    window.SwymCallbacks = [];
+  }
+  window.SwymCallbacks.push(swymCallbackFn);
+
+</script>
+
+<script>
+  function swymCallbackFn(swat){
+    function swymAttachEvents(){
+      swat.initializeActionButtons(".quick-add-modal");
+    }
+    document.addEventListener('quickview:loaded', function(e) {
+      console.log("Quickview Loaded!",e.detail.productId);
+      swymAttachEvents();
+    });
+    document.addEventListener('variant:change', function(event) {
+      var variant_id = event.detail.variant.id;
+      var btn =  document.querySelector("#swym-quick-view");
+      if(btn){
+        btn.setAttribute("data-variant-id", variant_id);
+      }
+      swymAttachEvents();
+    });
+  }
+
+  if(!window.SwymCallbacks){
+    window.SwymCallbacks = [];
+  }
+  window.SwymCallbacks.push(swymCallbackFn);
+</script>
+
+<script>
+  const fetchList = async (swat) => {
+    return new Promise((resolve, reject) => {
+        const onSuccess = (lists) => {
+            window.swymWishLists = lists;
+            window.swymSelectedListId = lists && lists[0] && lists[0].lid;
+            resolve(lists);
+            updateButtonState();
+        };
+        const onError = (error) => reject(error);
+        swat.fetchLists({
+            callbackFn: onSuccess,
+            errorFn: onError
+        });
+    });
+};
+</script>
+<script>
+const addToWishlist = (swat, product) => {
+    swat.addToList(window.swymSelectedListId, product, onSuccess, onError); 
+}; 
+const removeFromWishlist = (swat, product) => {
+    swat.deleteFromList(window.swymSelectedListId, product, onSuccess, onError); 
+};
+
+const updateButtonState = () => {
+    const swymWishlistButtons = document.querySelectorAll('swymcs-wishlist-button');
+    if (swymWishlistButtons) {
+        swymWishlistButtons.forEach((swymWishlistButton) => {
+            const elements = swymWishlistButton.elements;
+            const {
+                epi,
+                empi
+            } = elements.wishlistButton.dataset;
+            updateButtonWishlistState(elements, isWishlisted);
+        });
+    }
+};
+</script>
+
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "t:sections.main-collection-product-grid.name",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 36,
+      "step": 4,
+      "default": 16,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.main-collection-product-grid.settings.columns_desktop.label"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.main-collection-product-grid.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
+        }
+      ]
+    },    
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        {
+          "value": "default",
+          "label": "t:sections.all.image_shape.options__1.label"
+        },
+        {
+          "value": "arch",
+          "label": "t:sections.all.image_shape.options__2.label"
+        },
+        {
+          "value": "blob",
+          "label": "t:sections.all.image_shape.options__3.label"
+        },
+        {
+          "value": "chevronleft",
+          "label": "t:sections.all.image_shape.options__4.label"
+        },
+        {
+          "value": "chevronright",
+          "label": "t:sections.all.image_shape.options__5.label"
+        },
+        {
+          "value": "diamond",
+          "label": "t:sections.all.image_shape.options__6.label"
+        },
+        {
+          "value": "parallelogram",
+          "label": "t:sections.all.image_shape.options__7.label"
+        },
+        {
+          "value": "round",
+          "label": "t:sections.all.image_shape.options__8.label"
+        }
+      ],
+      "default": "default",
+      "label": "t:sections.all.image_shape.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_secondary_image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "t:sections.main-collection-product-grid.settings.show_rating.label",
+      "info": "t:sections.main-collection-product-grid.settings.show_rating.info"
+    },
+    {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
+        },
+        {
+          "value": "standard",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
+        },
+        {
+          "value": "bulk",
+          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "select",
+      "id": "filter_type",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label"
+        },
+        {
+          "value": "vertical",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
+        },
+        {
+          "value": "drawer",
+          "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
+        }
+      ],
+      "default": "horizontal",
+      "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}

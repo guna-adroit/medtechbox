@@ -1,0 +1,72 @@
+<style>
+        
+    </style>
+    <div class="mt-icon-with-text-wrapper">
+        <div class="mt-icon-with-text-container page-width">
+          {% for block in section.blocks %}
+            <div class="mt-icon-with-text__block">
+                <div class="mt-icon-container">
+                    {% if block.settings.image != blank %}
+                    {{ block.settings.image | image_url: width: 900 | image_tag }}
+                    {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'image-with-text-placeholder-image' }}
+                    {% endif %}
+                 </div>
+                <h3 class="mt-icon-text__title">{{ block.settings.title }}</h3>
+                <p class="mt-icon-text__description">{{ block.settings.description }}</p>
+            </div>
+          {% endfor %}
+            
+        </div>
+    </div>
+{% schema %}
+  {
+    "name": "Icon with text",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "icon",
+        "name": "Icon Text",
+        "limit": 4,
+        "settings": [
+          {
+              "type": "image_picker",
+              "id": "image",
+              "label": "Image"
+          },
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Heading",
+              "default": "Heading"
+            },
+          {
+              "type": "textarea",
+              "id": "description",
+              "label": "Description",
+              "default": "Lorem ipsum dolar sit amit."
+          },
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Icon with text",
+        "blocks": [
+          {
+            "type": "icon",
+          },
+          {
+            "type": "icon",
+          },
+          {
+            "type": "icon",
+          },
+          {
+            "type": "icon",
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

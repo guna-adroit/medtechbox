@@ -1,0 +1,814 @@
+
+
+<style>
+
+  :root {
+    --bg:         #F5F4F0;
+    --surface:    #FFFFFF;
+    --border:     #E2E0D9;
+    --ink:        #1A1A18;
+    --ink-muted:  #6B6860;
+    --accent:     #17a7df;
+    --accent-lt:  #EAF2EF;
+    --danger:     #C0392B;
+    --tag-bg:     #F0F0F0;
+    --radius:     4px;
+    --shadow:     0 1px 3px rgba(0,0,0,.07), 0 4px 16px rgba(0,0,0,.05);
+    --transition: 220ms cubic-bezier(.4,0,.2,1);
+  }
+
+
+  .wl-header {
+    padding: 56px 0 40px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .wl-header__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .wl-header__title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .wl-header__title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .wl-count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-muted);
+    background: var(--tag-bg);
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .wl-count-badge strong { color: var(--ink); font-weight: 600; }
+
+  .wl-body {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+    font-family: Roboto;
+  }
+
+  .wl-state {
+    text-align: center;
+    padding: 80px 32px;
+  }
+  .wl-state__icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 20px;
+    opacity: .35;
+  }
+  .wl-state__heading {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .wl-state__sub {
+    font-size: 15px;
+    color: var(--ink-muted);
+    max-width: 360px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .wl-state__cta {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    transition: background var(--transition);
+  }
+  .wl-state__cta:hover { background: #163b2f; }
+
+  .wl-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+
+  .wl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: cardIn 400ms forwards;
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .wl-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,.1), 0 8px 32px rgba(0,0,0,.09);
+    transform: translateY(-2px);
+  }
+  @keyframes cardIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .wl-card:nth-child(1)  { animation-delay: 60ms; }
+  .wl-card:nth-child(2)  { animation-delay: 120ms; }
+  .wl-card:nth-child(3)  { animation-delay: 180ms; }
+  .wl-card:nth-child(4)  { animation-delay: 240ms; }
+  .wl-card:nth-child(5)  { animation-delay: 300ms; }
+  .wl-card:nth-child(6)  { animation-delay: 360ms; }
+  .wl-card:nth-child(n+7){ animation-delay: 400ms; }
+
+  .wl-card__img-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--tag-bg);
+  }
+  .wl-card__img-wrap a { display: block; height: 100%; }
+  .wl-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms cubic-bezier(.4,0,.2,1);
+  }
+  .wl-card:hover .wl-card__img { transform: scale(1.04); }
+
+  .wl-card__remove {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    transition: color var(--transition), background var(--transition), transform var(--transition);
+    z-index: 2;
+  }
+  .wl-card__remove:hover {
+    background: #fff;
+    color: var(--danger);
+    transform: scale(1.1);
+  }
+  .wl-card__remove svg { pointer-events: none; }
+
+  .wl-card__body {
+    padding: 16px 18px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .wl-card__sku {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin: 0;
+  }
+  .wl-card__title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .wl-card__title:hover { color: var(--accent); }
+
+  .wl-card__variant {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    background: var(--tag-bg);
+    padding: 3px 8px;
+    border-radius: 3px;
+    align-self: flex-start;
+  }
+
+
+  .wl-card__price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .wl-card__price--free {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .wl-card__atc {
+    flex: 1;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background var(--transition), transform var(--transition);
+    font-family: 'Roboto' !important;
+    text-transform: uppercase;
+    border-radius: 100px;
+  }
+  .wl-card__atc:hover  { background: #163b2f; }
+  .wl-card__atc:active { transform: scale(.97); }
+  .wl-card__atc:disabled {
+    background: var(--border);
+    color: var(--ink-muted);
+    cursor: not-allowed;
+  }
+  .wl-card__atc--added {
+    background: var(--accent-lt) !important;
+    color: var(--accent) !important;
+  }
+  .wl-card__atc--soldout {
+    background: var(--tag-bg) !important;
+    color: var(--ink-muted) !important;
+    cursor: not-allowed !important;
+    border: 1px solid var(--border);
+    font-style: italic;
+    letter-spacing: .01em;
+  }
+  .wl-card--soldout .wl-card__qty {
+    opacity: .4;
+    pointer-events: none;
+  }
+
+  .wl-card__qty {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .wl-qty__btn {
+    width: 32px;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    font-size: 16px;
+    line-height: 1;
+    transition: background var(--transition), color var(--transition);
+    flex-shrink: 0;
+  }
+  .wl-qty__btn:hover { background: var(--tag-bg); color: var(--ink); }
+  .wl-qty__btn:active { background: var(--border); }
+  .wl-qty__btn:disabled { opacity: .35; cursor: not-allowed; }
+  .wl-qty__input {
+    width: 34px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: transparent;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  .wl-qty__input::-webkit-outer-spin-button,
+  .wl-qty__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .wl-qty__input:focus { outline: none; background: var(--accent-lt); }
+
+  /* Footer: two rows on card */
+  .wl-card__footer {
+    padding: 12px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .wl-card__footer-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  /* Skeleton loader */
+  .wl-skeleton {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+  }
+  .wl-skeleton__card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .wl-skeleton__img  { aspect-ratio: 1/1; background: var(--tag-bg); }
+  .wl-skeleton__line {
+    height: 12px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    animation: shimmer 1.4s ease-in-out infinite;
+    background: linear-gradient(90deg, var(--tag-bg) 25%, var(--border) 50%, var(--tag-bg) 75%);
+    background-size: 400% 100%;
+  }
+  .wl-skeleton__body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .wl-skeleton__line--sm  { width: 40%; }
+  .wl-skeleton__line--md  { width: 75%; }
+  .wl-skeleton__line--full{ width: 100%; }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Toast */
+  .wl-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 22px;
+    border-radius: 100px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    z-index: 9999;
+    transition: transform 350ms cubic-bezier(.34,1.56,.64,1), opacity 300ms ease;
+    opacity: 0;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .wl-toast--show { transform: translateX(-50%) translateY(0); opacity: 1; }
+  .wl-toast--success { background: var(--accent); }
+  .wl-toast--error   { background: var(--danger); }
+
+  @media (max-width: 600px) {
+    .wl-header { padding: 36px 0 28px; }
+    .wl-header__inner { padding: 0 20px; }
+    .wl-body { padding: 32px 20px 60px; }
+    .wl-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+    .wl-card__body        { padding: 12px 12px 0; }
+    .wl-card__footer      { padding: 10px 12px 14px; }
+    .wl-card__footer-top  { flex-wrap: wrap; }
+    .wl-card__atc         { width: 100%; }
+  }
+</style>
+
+<!-- ── HEADER ───────────────────────────────────── -->
+<header class="wl-header">
+  <div class="wl-header__inner">
+    <h1 class="wl-header__title">My Favorites</h1>
+    <span class="wl-count-badge" id="wl-count-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <strong id="wl-count">—</strong> items saved
+    </span>
+  </div>
+</header>
+
+<!-- ── BODY ────────────────────────────────────── -->
+<main class="wl-body">
+
+  <!-- Skeleton (shown while loading) -->
+  <div class="wl-skeleton" id="wl-skeleton">
+    {% for i in (1..4) %}
+    <div class="wl-skeleton__card">
+      <div class="wl-skeleton__img"></div>
+      <div class="wl-skeleton__body">
+        <div class="wl-skeleton__line wl-skeleton__line--sm"></div>
+        <div class="wl-skeleton__line wl-skeleton__line--md"></div>
+        <div class="wl-skeleton__line wl-skeleton__line--full"></div>
+        <div class="wl-skeleton__line wl-skeleton__line--sm"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Product grid (populated by JS) -->
+  <div class="wl-grid" id="wl-grid" style="display:none"></div>
+
+  <!-- Empty state -->
+  <div class="wl-state" id="wl-empty" style="display:none">
+    <svg class="wl-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <h2 class="wl-state__heading">Your wishlist is empty</h2>
+    <p class="wl-state__sub">Browse our catalogue and save products you love — they'll appear here.</p>
+    <a href="/collections/all" class="wl-state__cta">Explore Products</a>
+  </div>
+
+</main>
+
+<!-- Toast notification -->
+<div class="wl-toast" id="wl-toast"></div>
+
+<script>
+(function () {
+  /* ── Helpers ─────────────────────────────────── */
+  const $ = id => document.getElementById(id);
+  const fmt = price =>
+    new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(price);
+
+  function showToast(msg, type = '') {
+    const t = $('wl-toast');
+    t.textContent = msg;
+    t.className = 'wl-toast wl-toast--show' + (type ? ' wl-toast--' + type : '');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.className = 'wl-toast'; }, 3000);
+  }
+
+  /* ── Render cards ────────────────────────────── */
+  function renderCard(item) {
+    const {
+      id,        // wishlist item id (for removal)
+      dt = '',   // title
+      du = '#',  // product URL
+      iu = '',   // image URL
+      pr = 0,    // price
+      sku = '',  // SKU
+      vi = '',   // variant label
+      epi,       // variant (line_item) id
+      empi       // product id
+    } = item;
+
+    const priceHtml = pr > 0
+      ? `<span class="wl-card__price">${fmt(pr)}</span>`
+      : `<span class="wl-card__price wl-card__price--free">Contact for pricing</span>`;
+
+    const variantHtml = vi
+      ? `<span class="wl-card__variant">
+           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+           ${vi}
+         </span>`
+      : '';
+
+    // Variant SKU row (shown below variant label, prefixed with "SKU:")
+    const variantSkuHtml = sku
+      ? `<p class="wl-card__sku">SKU: ${sku}</p>`
+      : '';
+
+    const card = document.createElement('div');
+    card.className = 'wl-card';
+    card.dataset.id  = id;
+    card.dataset.du  = du;
+    card.dataset.epi = epi;
+    card.innerHTML = `
+      <div class="wl-card__img-wrap">
+        <a href="${du}" aria-label="${dt}">
+          <img class="wl-card__img"
+               src="${iu}"
+               alt="${dt}"
+               loading="lazy"
+               onerror="this.src='https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-1_large.png'">
+        </a>
+        <button class="wl-card__remove" title="Remove from wishlist" data-id="${id}" data-epi="${epi}" data-empi="${empi}" data-du="${du}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="wl-card__body">
+        ${variantSkuHtml}
+        <a class="wl-card__title" href="${du}">${dt}</a>
+        ${variantHtml}
+        
+      </div>
+      <div class="wl-card__footer">
+        <div class="wl-card__footer-top">
+          ${priceHtml}
+          <div class="wl-card__qty" role="group" aria-label="Quantity">
+            <button class="wl-qty__btn wl-qty__minus" aria-label="Decrease quantity">−</button>
+            <input class="wl-qty__input" type="number" value="1" min="1" max="99" aria-label="Quantity">
+            <button class="wl-qty__btn wl-qty__plus" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <button class="wl-card__atc" data-epi="${epi}">Add to Cart</button>
+      </div>`;
+
+    return card;
+  }
+
+  /* ── Refresh cart sections (count + drawer) ─────
+   *  Used after any add attempt — including partial
+   *  inventory fills — so the count bubble always
+   *  reflects the real cart state.
+   * ─────────────────────────────────────────────── */
+  async function refreshCartSections(cart) {
+    if (!cart) return;
+    try {
+      const ids = cart.getSectionsToRender().map(s => s.id).join(',');
+      const res = await fetch(`${routes.cart_url}?sections=${encodeURIComponent(ids)}`);
+      if (!res.ok) return;
+      const sections = await res.json();
+      if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+      // renderContents expects the same shape as /cart/add.js response
+      cart.renderContents({ sections });
+      if (typeof publish !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+        publish(PUB_SUB_EVENTS.cartUpdate, {
+          source: 'product-form',
+          cartData: { sections },
+        });
+      }
+    } catch (e) {
+      console.warn('[Wishlist] refreshCartSections failed:', e);
+    }
+  }
+
+  /* ── Add to Cart (Dawn-compatible) ──────────────
+   *  Mirrors product-form.js: uses FormData + sections
+   *  so cart-drawer / cart-notification re-renders via
+   *  renderContents(), and PUB_SUB_EVENTS.cartUpdate
+   *  fires to update the cart count bubble.
+   *
+   *  On inventory errors (422) we still call
+   *  refreshCartSections() so partial adds update the
+   *  count — e.g. requesting 10 when only 5 remain.
+   * ─────────────────────────────────────────────── */
+  async function addToCart(variantId, qty, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Adding…';
+
+    try {
+      const cart   = document.querySelector('cart-drawer') || document.querySelector('cart-notification');
+      const config = fetchConfig('javascript');
+      config.headers['X-Requested-With'] = 'XMLHttpRequest';
+      delete config.headers['Content-Type'];
+
+      const formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', qty);
+
+      if (cart) {
+        formData.append('sections', cart.getSectionsToRender().map(s => s.id));
+        formData.append('sections_url', window.location.pathname);
+      }
+
+      config.body = formData;
+
+      const res  = await fetch(routes.cart_add_url, config);
+      const data = await res.json();
+
+      if (data.status) {
+        // Shopify returned an error (e.g. inventory limit reached).
+        // The cart may still have been partially updated, so always
+        // refresh sections so the count bubble stays accurate.
+        showToast(data.description || 'Could not add to cart.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Add to Cart';
+        await refreshCartSections(cart);
+        return;
+      }
+
+      // Success path — publish PubSub + render sections
+      if (typeof publish !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+        publish(PUB_SUB_EVENTS.cartUpdate, {
+          source: 'product-form',
+          productVariantId: String(variantId),
+          cartData: data,
+        });
+      }
+      if (cart) {
+        if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+        cart.renderContents(data);
+      }
+
+      btn.textContent = '✓ Added';
+      btn.classList.add('wl-card__atc--added');
+      showToast(`${qty} item${qty > 1 ? 's' : ''} added to your cart`, 'success');
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = 'Add to Cart';
+        btn.classList.remove('wl-card__atc--added');
+      }, 2500);
+
+    } catch (err) {
+      console.error('[Wishlist] addToCart error:', err);
+      btn.disabled = false;
+      btn.textContent = 'Add to Cart';
+      showToast('Could not add to cart. Please try again.', 'error');
+    }
+  }
+
+  /* ── Stock check ─────────────────────────────────
+   *  After cards render, fetch /products/{handle}.js
+   *  for each unique product (batched by handle) and
+   *  mark sold-out variants before the customer tries
+   *  to add them.
+   * ─────────────────────────────────────────────── */
+  function extractHandle(productUrl) {
+    // du looks like: https://store.com/products/my-product
+    const m = productUrl.match(/\/products\/([^/?#]+)/);
+    return m ? m[1] : null;
+  }
+
+  function applySoldOut(card) {
+    card.classList.add('wl-card--soldout');
+    const btn = card.querySelector('.wl-card__atc');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Sold Out';
+    btn.classList.add('wl-card__atc--soldout');
+  }
+
+  async function checkStockStatus(grid) {
+    const cards = Array.from(grid.querySelectorAll('.wl-card'));
+
+    // Group cards by product handle to minimise fetch count
+    const byHandle = {};
+    cards.forEach(card => {
+      const handle = extractHandle(card.dataset.du || '');
+      if (!handle) return;
+      if (!byHandle[handle]) byHandle[handle] = [];
+      byHandle[handle].push(card);
+    });
+
+    await Promise.all(
+      Object.entries(byHandle).map(async ([handle, handleCards]) => {
+        try {
+          const res = await fetch(`/products/${handle}.js`);
+          if (!res.ok) return;
+          const product = await res.json();
+
+          handleCards.forEach(card => {
+            const epi     = Number(card.dataset.epi);
+            const variant = product.variants.find(v => v.id === epi);
+            // Mark sold out if: variant found + not available,
+            // OR product itself has no available variants at all
+            if (variant && !variant.available) {
+              applySoldOut(card);
+            } else if (!variant && !product.available) {
+              applySoldOut(card);
+            }
+          });
+        } catch (e) {
+          console.warn(`[Wishlist] stock check failed for "${handle}":`, e);
+        }
+      })
+    );
+  }
+
+  /* ── Remove from wishlist ────────────────────── */
+  function removeItem(swat, btn) {
+    const { id, epi, empi, du } = btn.dataset;
+    const card = btn.closest('.wl-card');
+    card.style.transition = 'opacity 250ms ease, transform 250ms ease';
+    card.style.opacity = '0';
+    card.style.transform = 'scale(.95)';
+
+    swat.removeFromWishList(
+      { id, epi: Number(epi), empi: Number(empi), du },
+      () => {
+        card.remove();
+        const remaining = $('wl-grid').querySelectorAll('.wl-card').length;
+        updateCount(remaining);
+        if (remaining === 0) showEmptyState();
+        showToast('Removed from wishlist');
+      },
+      () => {
+        card.style.opacity = '1';
+        card.style.transform = '';
+        showToast('Could not remove item.', 'error');
+      }
+    );
+  }
+
+  /* ── Count badge ─────────────────────────────── */
+  function updateCount(n) {
+    $('wl-count').textContent = n;
+  }
+
+  function showEmptyState() {
+    $('wl-grid').style.display = 'none';
+    $('wl-empty').style.display = 'block';
+  }
+
+  /* ── Swym callback ───────────────────────────── */
+  function swymCallbackFn(swat) {
+    swat.fetchWrtEventTypeET(function (products) {
+      // Hide skeleton
+      $('wl-skeleton').style.display = 'none';
+
+      if (!products || products.length === 0) {
+        showEmptyState();
+        updateCount(0);
+        return;
+      }
+
+      updateCount(products.length);
+      const grid = $('wl-grid');
+      grid.style.display = 'grid';
+
+      products.forEach(item => {
+        const card = renderCard(item);
+        grid.appendChild(card);
+      });
+
+      // Check stock asynchronously — sold-out variants get disabled button
+      checkStockStatus(grid);
+
+      // Delegate: Add to Cart, qty stepper, remove
+      grid.addEventListener('click', e => {
+        // Add to Cart — read qty from same card's input
+        const atcBtn = e.target.closest('.wl-card__atc');
+        if (atcBtn) {
+          const qtyInput = atcBtn.closest('.wl-card').querySelector('.wl-qty__input');
+          const qty = Math.max(1, parseInt(qtyInput.value, 10) || 1);
+          addToCart(atcBtn.dataset.epi, qty, atcBtn);
+        }
+
+        // Quantity decrease
+        const minusBtn = e.target.closest('.wl-qty__minus');
+        if (minusBtn) {
+          const inp = minusBtn.closest('.wl-card__qty').querySelector('.wl-qty__input');
+          const cur = parseInt(inp.value, 10) || 1;
+          if (cur > 1) inp.value = cur - 1;
+          minusBtn.disabled = parseInt(inp.value, 10) <= 1;
+        }
+
+        // Quantity increase
+        const plusBtn = e.target.closest('.wl-qty__plus');
+        if (plusBtn) {
+          const inp = plusBtn.closest('.wl-card__qty').querySelector('.wl-qty__input');
+          const cur = parseInt(inp.value, 10) || 1;
+          if (cur < 99) inp.value = cur + 1;
+          inp.closest('.wl-card__qty').querySelector('.wl-qty__minus').disabled = false;
+        }
+
+        // Remove from wishlist
+        const rmBtn = e.target.closest('.wl-card__remove');
+        if (rmBtn) removeItem(swat, rmBtn);
+      });
+
+      // Clamp typed values
+      grid.addEventListener('change', e => {
+        const inp = e.target.closest('.wl-qty__input');
+        if (!inp) return;
+        let v = parseInt(inp.value, 10);
+        if (isNaN(v) || v < 1) v = 1;
+        if (v > 99) v = 99;
+        inp.value = v;
+        inp.closest('.wl-card__qty').querySelector('.wl-qty__minus').disabled = v <= 1;
+      });
+    });
+  }
+
+  if (!window.SwymCallbacks) window.SwymCallbacks = [];
+  window.SwymCallbacks.push(swymCallbackFn);
+})();
+</script>
+
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [],
+  "presets":[
+    {
+    "name": "Wishlist Page"
+    }
+  ]
+}
+{% endschema %}
+    

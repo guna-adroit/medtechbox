@@ -1,0 +1,58 @@
+<script>
+  function onSwymLoadCallback(swat) {
+      swat.evtLayer.addEventListener(swat.JSEvents.UIAddedToCart, function() {
+          window._cartRefresh()
+      });
+      // swat.evtLayer.addEventListener(swat.JSEvents.removedFromWishlist, function() {
+          // Define eventname
+  let event = 'sw:removedfromwishlist';
+  // Define the event listener function
+  let listener = function(e) { 
+    let successMessage = "Product removed from wishlist"; 
+          swat.ui.showSuccessNotification({ message: successMessage })
+  };
+  // Add listener for the 'removedfromwishlist' event to the Swym Event Layer
+  swat.evtLayer.addEventListener(event, listener); // FYI this will
+        
+  // let product = {};
+  // let currentElement = "";
+  // // Manually trigger the 'removedfromwishlist' event for a product
+  // swat.triggerSwymEvent(event, product, currentElement);
+        
+      // });
+    
+  }
+  
+  if (!window.SwymCallbacks) {
+      window.SwymCallbacks = [];
+  }
+  window.SwymCallbacks.push(onSwymLoadCallback);
+</script>
+{% comment %} <script>
+  function onSwymLoadCallback(swat) {
+      swat.evtLayer.addEventListener(swat.JSEvents.UIAddedToCart, function() {
+          window._cartRefresh()
+      });
+      swat.evtLayer.addEventListener(swat.JSEvents.removedFromWishlist, function() {
+          // Define eventname
+  let event = 'sw:removedfromwishlist';
+  // Define the event listener function
+  let listener = function(eventData) { 
+  
+  };
+  // Add listener for the 'removedfromwishlist' event to the Swym Event Layer
+  swat.evtLayer.addEventListener(event, listener);
+  let product = {};
+  let currentElement = "";
+  // Manually trigger the 'removedfromwishlist' event for a product
+  swat.triggerSwymEvent(event, product, currentElement);
+          let successMessage = "Product removed from wishlist"; 
+          swat.ui.showSuccessNotification({ message: successMessage });
+      });
+  }
+  
+  if (!window.SwymCallbacks) {
+      window.SwymCallbacks = [];
+  }
+  window.SwymCallbacks.push(onSwymLoadCallback);
+</script> {% endcomment %}

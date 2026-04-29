@@ -1,0 +1,283 @@
+{% comment %}
+  snippets/cart-shipping-estimate.liquid
+  Accepts: vendor (string) — renders minimum shipping estimate for one vendor
+{% endcomment %}
+
+{% if customer and customer.default_address %}
+
+  {% assign customer_postcode = customer.default_address.zip %}
+  {% assign config_entries    = shop.metaobjects.vendor_shipping_config.values %}
+  {% assign zone_entries      = shop.metaobjects.vendor_shipping_zone.values %}
+
+  {% if config_entries.size > 0 and customer_postcode != blank %}
+
+    {% comment %} ── Find config entry for this vendor ── {% endcomment %}
+    {% assign vendor_config = nil %}
+    {% for cfg in config_entries %}
+      {% if cfg.vendor_name.value == vendor %}
+        {% assign vendor_config = cfg %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+
+    {% comment %} ── Build postcode-zones JSON array for this vendor ── {% endcomment %}
+    {% assign zones_parts = '' %}
+    {% for zone in zone_entries %}
+      {% if zone.vendor_name.value == vendor %}
+        {% assign exact_raw  = zone.exact_postcodes.value | default: '' %}
+        {% assign exact_list = exact_raw | split: ',' %}
+        {% capture exact_arr %}{% for p in exact_list %}{% assign pc = p | strip %}{% if pc != blank %}{{ pc | json }},{% endif %}{% endfor %}{% endcapture %}
+        {% assign exact_arr = exact_arr | remove_last: ',' %}
+        {% capture zone_obj %}{"serviceName":{{ zone.service_name.value | default: 'Standard Shipping' | json }},"rateCents":{{ zone.rate_cents.value | default: 1500 }},"minDays":{{ zone.min_delivery_days.value | default: 2 }},"maxDays":{{ zone.max_delivery_days.value | default: 5 }},"exact":[{{ exact_arr }}],"ranges":{{ zone.postcode_ranges.value | default: '[]' | json }}}{% endcapture %}
+        {% if zones_parts == '' %}
+          {% assign zones_parts = zone_obj %}
+        {% else %}
+          {% assign zones_parts = zones_parts | append: ',' | append: zone_obj %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% assign zones_json = '[' | append: zones_parts | append: ']' %}
+
+    {% comment %} ── Build full config JSON ── {% endcomment %}
+    {% if vendor_config != nil %}
+      {% capture config_json %}{
+        "shippingType":       {{ vendor_config.shipping_type.value       | default: 'flat_rate' | json }},
+        "freeThresholdCents": {% if vendor_config.free_threshold_cents.value != blank %}{{ vendor_config.free_threshold_cents.value }}{% else %}null{% endif %},
+        "fallbackRateCents":  {{ vendor_config.fallback_rate_cents.value  | default: 1500 }},
+        "shippingOptions":    {{ vendor_config.shipping_options.value     | default: '[]' | json }},
+        "postcodeZones":      {{ zones_json }}
+      }{% endcapture %}
+    {% else %}
+      {% assign config_json = 'null' %}
+    {% endif %}
+
+    {% comment %}
+      The <shipping-estimate> element has NO embedded child script for config.
+      Config is registered into window._seConfigs by the <script> block below,
+      which ALWAYS runs after this element's opening tag is parsed.
+      connectedCallback defers via setTimeout(0), so all inline scripts on the
+      page have already executed by the time config is read — fixing the race
+      where vendor 2's connectedCallback fired before its <script> ran.
+    {% endcomment %}
+    <shipping-estimate
+      data-vendor="{{ vendor | escape }}"
+      data-postcode="{{ customer_postcode | escape }}"
+      data-city="{{ customer.default_address.city | escape }}, {{ customer_postcode | escape }}">
+      <div class="shipping-estimate__results">
+        <p class="shipping-estimate__loading">Calculating shipping…</p>
+      </div>
+    </shipping-estimate>
+
+    <script>
+    (function () {
+      'use strict';
+
+      /* ─────────────────────────────────────────────────────
+         1. Register this vendor's config in a global registry.
+            This runs synchronously (inline script), so it is
+            always set before the deferred connectedCallback reads it.
+      ───────────────────────────────────────────────────── */
+      window._seConfigs = window._seConfigs || {};
+      window._seConfigs[{{ vendor | json }}] = {{ config_json }};
+
+      /* ─────────────────────────────────────────────────────
+         2. Shared helpers — defined once, reused by all instances.
+      ───────────────────────────────────────────────────── */
+      if (!window._seHelpers) {
+        window._seHelpers = {
+
+          matchZone: function (postalCode, zones) {
+            var numeric = parseInt(postalCode.padStart(4, '0'), 10);
+            return zones.find(function (zone) {
+              if (Array.isArray(zone.exact) && zone.exact.includes(postalCode)) return true;
+              return Array.isArray(zone.ranges)
+                ? zone.ranges.some(function (r) { return numeric >= r.from && numeric <= r.to; })
+                : false;
+            }) || null;
+          },
+
+          getRates: function (config, subtotalCents, totalGrams, postalCode) {
+            var h = window._seHelpers;
+            switch (config.shippingType) {
+
+              case 'flat_rate':
+                if (config.freeThresholdCents !== null && subtotalCents >= config.freeThresholdCents) {
+                  return [{ name: 'Free Shipping', price: 0,
+                            desc: 'Free on orders over $' + (config.freeThresholdCents / 100).toFixed(2) }];
+                }
+                if (!config.shippingOptions || !config.shippingOptions.length) {
+                  return [{ name: 'Standard Shipping', price: config.fallbackRateCents, desc: '' }];
+                }
+                return config.shippingOptions.map(function (o) {
+                  return { name: o.service_name, price: o.price_cents, desc: o.description || '' };
+                });
+
+              case 'zone_based':
+                var zone = h.matchZone(postalCode, config.postcodeZones || []);
+                if (zone) return [{ name: zone.serviceName, price: zone.rateCents, desc: '' }];
+                return [{ name: 'Standard Shipping', price: config.fallbackRateCents, desc: '' }];
+
+              case 'weight_based':
+                var kg = totalGrams / 1000;
+                var wprice = 800;
+                if (kg > 5) wprice += Math.ceil((kg - 5) / 5) * 400;
+                var opt = config.shippingOptions && config.shippingOptions[0];
+                return [{ name: (opt && opt.service_name) || 'Standard Shipping', price: wprice, desc: kg.toFixed(2) + ' kg' }];
+
+              case 'free':
+                return [{ name: 'Free Shipping', price: 0, desc: '' }];
+
+              default:
+                return [{ name: 'Standard Shipping', price: config.fallbackRateCents, desc: '' }];
+            }
+          },
+
+          minRate: function (rates) {
+            return rates.reduce(function (cheapest, r) {
+              return r.price < cheapest.price ? r : cheapest;
+            }, rates[0]);
+          },
+
+          fmt: function (cents) {
+            return cents === 0
+              ? '<span class="shipping-estimate__free">FREE</span>'
+              : '$' + (cents / 100).toFixed(2);
+          }
+        };
+      }
+
+      /* ─────────────────────────────────────────────────────
+         3. Custom element — defined once, handles all vendors.
+
+         FIX A (config timing): connectedCallback defers with
+         setTimeout(0). This yields back to the HTML parser,
+         letting ALL remaining inline scripts run first. By the
+         time the callback fires, window._seConfigs has every
+         vendor's config — regardless of how many vendors exist.
+
+         FIX B (re-render race): disconnectedCallback clears the
+         timer and aborts any in-flight fetch. When Shopify re-
+         renders the cart section (triggered by setVendorLine-
+         Properties cart/change.js calls), the replaced element
+         disconnects cleanly and the fresh element starts its own
+         cycle without being stuck on the previous fetch.
+      ───────────────────────────────────────────────────── */
+      if (!customElements.get('shipping-estimate')) {
+        customElements.define('shipping-estimate', class ShippingEstimate extends HTMLElement {
+
+          connectedCallback() {
+            clearTimeout(this._initTimer);
+            /* setTimeout(0): defer until after all synchronous scripts finish */
+            this._initTimer = setTimeout(function (self) {
+              self.postcode = self.dataset.postcode;
+              self.vendor   = self.dataset.vendor;
+              self.city     = self.dataset.city;
+              /* Config is now guaranteed to be in the registry */
+              self.config   = (window._seConfigs && window._seConfigs[self.vendor]) || null;
+              self.calculate();
+            }, 0, this);
+          }
+
+          disconnectedCallback() {
+            clearTimeout(this._initTimer);
+            if (this._abort) { this._abort.abort(); this._abort = null; }
+          }
+
+          calculate() {
+            var self = this;
+            var h    = window._seHelpers;
+            var el   = this.querySelector('.shipping-estimate__results');
+            if (!el || !this.postcode || !this.vendor) return;
+
+            el.innerHTML = '<p class="shipping-estimate__loading">Calculating shipping…</p>';
+
+            if (this._abort) this._abort.abort();
+            this._abort = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+            var fetchOpts = this._abort ? { signal: this._abort.signal } : {};
+
+            fetch('/cart.js', fetchOpts)
+              .then(function (r) { return r.json(); })
+              .then(function (cart) {
+                try {
+                  var resultsEl = self.querySelector('.shipping-estimate__results');
+                  /* null = element was replaced by a cart re-render.
+                     The replacement element handles its own calculate(). */
+                  if (!resultsEl) return;
+
+                  var vendorItems = cart.items.filter(function (i) { return i.vendor === self.vendor; });
+
+                  if (!vendorItems.length) {
+                    console.warn('[ShippingEstimate] No items matched "' + self.vendor + '". ' +
+                      'Cart vendors: ' + cart.items.map(function (i) { return i.vendor; }).join(', '));
+                    resultsEl.innerHTML = '';
+                    return;
+                  }
+
+                  var subtotal   = vendorItems.reduce(function (s, i) { return s + i.price * i.quantity; }, 0);
+                  var totalGrams = vendorItems.reduce(function (s, i) { return s + i.grams * i.quantity; }, 0);
+
+                  var rates;
+                  if (self.config) {
+                    rates = h.getRates(self.config, subtotal, totalGrams, self.postcode);
+                  } else {
+                    var kg = totalGrams / 1000;
+                    var fbprice = 800;
+                    if (kg > 5) fbprice += Math.ceil((kg - 5) / 5) * 400;
+                    rates = [{ name: 'Standard Shipping', price: fbprice, desc: '' }];
+                  }
+
+                  if (!rates || !rates.length) throw new Error('No rates for ' + self.vendor);
+
+                  var best = h.minRate(rates);
+
+                  resultsEl.innerHTML =
+                    '<p class="shipping-estimate__inline">' +
+                      '<span class="shipping-estimate__label">Estimated shipping to ' + self.city + ':</span> ' +
+                      '<span class="shipping-estimate__method">' + best.name + '</span> ' +
+                      '<span class="shipping-estimate__price">' + h.fmt(best.price) + '</span>' +
+                    '</p>';
+
+                } catch (innerErr) {
+                  console.error('[ShippingEstimate] Render error for "' + self.vendor + '":', innerErr);
+                  var errEl = self.querySelector('.shipping-estimate__results');
+                  if (errEl) errEl.innerHTML = '<p class="shipping-estimate__error">Could not calculate shipping.</p>';
+                }
+              })
+              .catch(function (err) {
+                if (err.name === 'AbortError') return; /* cart re-render cancelled this fetch — safe to ignore */
+                console.error('[ShippingEstimate] Fetch failed for "' + self.vendor + '":', err);
+                var errEl = self.querySelector('.shipping-estimate__results');
+                if (errEl) errEl.innerHTML = '<p class="shipping-estimate__error">Could not load shipping rates.</p>';
+              });
+          }
+
+        });
+      }
+
+    })();
+    </script>
+
+  {% endif %}
+
+{% elsif customer and customer.default_address == blank %}
+  <p class="shipping-estimate__no-address">
+    <a href="/account/addresses">Add a delivery address</a> to see shipping estimates.
+  </p>
+{% endif %}
+
+<style>
+  .shipping-estimate__inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    margin: 8px 0 0;
+    font-size: 0.9em;
+  }
+  .shipping-estimate__label  { color: currentColor; opacity: 0.75; }
+  .shipping-estimate__method { font-weight: 500; }
+  .shipping-estimate__price  { font-weight: 700; }
+  .shipping-estimate__free   { color: #2a7a2a; font-weight: 700; }
+  .shipping-estimate__loading,
+  .shipping-estimate__error  { font-size: 0.85em; opacity: 0.7; margin: 6px 0 0; }
+</style>
