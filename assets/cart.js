@@ -1,4 +1,4 @@
-//assets/cart.js
+//xassets/cart.js
 // class CartRemoveButton extends HTMLElement {
 //   constructor() {
 //     super();
@@ -205,12 +205,12 @@ class CartItems extends HTMLElement {
   }
 
   getSectionsToRender() {
+  // Check if vendor-grouped layout is active on cart page
+  const isVendorGrouped = !!document.querySelector('.shipment');
+
+  if (isVendorGrouped) {
+    // Only re-render icon bubble — skip main-cart-items to preserve grouping
     return [
-      {
-        id: 'main-cart-items',
-        section: document.getElementById('main-cart-items').dataset.id,
-        selector: '.js-contents',
-      },
       {
         id: 'cart-icon-bubble',
         section: 'cart-icon-bubble',
@@ -221,13 +221,33 @@ class CartItems extends HTMLElement {
         section: 'cart-live-region-text',
         selector: '.shopify-section',
       },
-      {
-        id: 'main-cart-footer',
-        section: document.getElementById('main-cart-footer').dataset.id,
-        selector: '.js-contents',
-      },
     ];
   }
+
+  // Default Dawn behavior (drawer uses this path too)
+  return [
+    {
+      id: 'main-cart-items',
+      section: document.getElementById('main-cart-items').dataset.id,
+      selector: '.js-contents',
+    },
+    {
+      id: 'cart-icon-bubble',
+      section: 'cart-icon-bubble',
+      selector: '.shopify-section',
+    },
+    {
+      id: 'cart-live-region-text',
+      section: 'cart-live-region-text',
+      selector: '.shopify-section',
+    },
+    {
+      id: 'main-cart-footer',
+      section: document.getElementById('main-cart-footer').dataset.id,
+      selector: '.js-contents',
+    },
+  ];
+}
 
   updateQuantity(line, quantity, event, name, variantId) {
     this.enableLoading(line);
