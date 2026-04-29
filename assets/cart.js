@@ -392,4 +392,148 @@ if (!customElements.get('cart-note')) {
   );
 }
 
+// ─── Vendor-grouped cart page: in-place quantity update ──────────────────────
+class VendorGroupedCartItems extends CartItems {
+  
+  getSectionsToRender() {
+    // Keep cart-icon-bubble + live-region in sync, but skip main-cart-items
+    // re-render so our vendor grouping layout is preserved.
+    return [
+      {
+        id: 'cart-icon-bubble',
+        section: 'cart-icon-bubble',
+        selector: '.shopify-section',
+      },
+      {
+        id: 'cart-live-region-text',
+        section: 'cart-live-region-text',
+        selector: '.shopify-section',
+      },
+    ];
+  }
+
+  updateQuantity(line, quantity, event, name, variantId) {
+    this.enableLoading(line);
+
+    const body = JSON.stringify({
+      line,
+      quantity,
+      sections: this.getSectionsToRender().map((s) => s.section),
+      sections_url: window.location.pathname,
+    });
+
+    fetch(`${routes.cart_change_url}`, { ...fetchConfig(), ...{ body } })
+      .then((r) => r.text())
+      .then((state) => {
+        const parsedState = JSON.parse(state);
+
+        if (parsedState.errors) {
+          const quantityEl =
+            document.getElementById(`Quantity-${line}`) ||
+            document.getElementById(`Drawer-quantity-${line}`);
+          if (quantityEl) quantityEl.value = quantityEl.getAttribute('value');
+          this.updateLiveRegions(line, parsedState.errors);
+          return;
+        }
+
+        // ── 1. Update the changed line item row in-place ──────────────────
+        const updatedItem = parsedState.items[line - 1];
+        const row =
+          document.getElementById(`CartItem-${line}`) ||
+          document.getElementById(`CartDrawer-Item-${line}`);
+
+        if (row) {
+          // Update quantity input value attribute (acts as "truth" for reset)
+          const qtyInput = row.querySelector('.quantity__input');
+          if (qtyInput) qtyInput.setAttribute('value', updatedItem ? updatedItem.quantity : 0);
+
+          // Update line total
+          const priceEl = row.querySelector('.price--end');
+          if (priceEl && updatedItem) {
+            priceEl.textContent = this.formatMoney(updatedItem.line_price);
+          }
+        }
+
+        // ── 2. Remove row if quantity is 0 ────────────────────────────────
+        if (!updatedItem || updatedItem.quantity === 0) {
+          if (row) row.remove();
+        }
+
+        // ── 3. Update cart totals ─────────────────────────────────────────
+        const totalEls = document.querySelectorAll('.totals__total-value');
+        totalEls.forEach((el) => {
+          el.textContent = this.formatMoney(parsedState.total_price);
+        });
+
+        // ── 4. Toggle empty state ─────────────────────────────────────────
+        this.classList.toggle('is-empty', parsedState.item_count === 0);
+        const cartFooter = document.getElementById('main-cart-footer');
+        if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
+
+        // ── 5. Refresh icon bubble + live region (section render) ─────────
+        this.getSectionsToRender().forEach((section) => {
+          const el =
+            document.getElementById(section.id)?.querySelector(section.selector) ||
+            document.getElementById(section.id);
+          if (el && parsedState.sections?.[section.section]) {
+            el.innerHTML = this.getSectionInnerHTML(
+              parsedState.sections[section.section],
+              section.selector
+            );
+          }
+        });
+
+        this.updateLiveRegions(line, '');
+
+        // ── 6. Sync cart header count if present ─────────────────────────
+        setTimeout(() => {
+          const cartHeaderCount = document.getElementById('cart-header-count');
+          const bubble = document.querySelector('#cart-icon-bubble .cart-count-bubble span');
+          if (cartHeaderCount && bubble) {
+            cartHeaderCount.innerHTML = `(${bubble.innerHTML})`;
+          }
+        }, 300);
+
+        publish(PUB_SUB_EVENTS.cartUpdate, {
+          source: 'cart-items',
+          cartData: parsedState,
+          variantId,
+        });
+      })
+      .catch(() => {
+        this.querySelectorAll('.loading__spinner').forEach((el) => el.classList.add('hidden'));
+        const errors =
+          document.getElementById('cart-errors') ||
+          document.getElementById('CartDrawer-CartErrors');
+        if (errors) errors.textContent = window.cartStrings.error;
+      })
+      .finally(() => {
+        this.disableLoading(line);
+      });
+  }
+
+  /**
+   * Converts Shopify's integer price (cents) → formatted currency string.
+   * Matches the store's money_with_currency format.
+   */
+  formatMoney(cents) {
+    if (window.Shopify?.formatMoney) {
+      return window.Shopify.formatMoney(cents, window.theme?.moneyFormat || '${{amount}}');
+    }
+    // Fallback
+    return '$' + (cents / 100).toFixed(2);
+  }
+}
+
+// Re-define cart-items ONLY on the cart page (not drawer)
+if (document.getElementById('main-cart-items')) {
+  // Unregister the generic cart-items custom element if already defined
+  // (custom elements can't be redefined, so we scope by checking the page)
+  // We use a flag to avoid double-registration
+  if (!window._vendorGroupedCartDefined) {
+    window._vendorGroupedCartDefined = true;
+    customElements.define('vendor-grouped-cart-items', VendorGroupedCartItems);
+  }
+}
+
 
