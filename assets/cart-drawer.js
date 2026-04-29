@@ -1,3 +1,4 @@
+// cart-drawer.js
 class CartDrawer extends HTMLElement {
   constructor() {
     super();
