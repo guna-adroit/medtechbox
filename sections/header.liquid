@@ -312,12 +312,18 @@
         </a>
       </div>
     </div>
+    {% for block in section.blocks %}
+      {% if block.type == 'subcategory' %}
+        {% assign subcategory_menu = block.settings.submenu %}
+        {% assign selectd_menu = block.settings.menu_title | downcase %}
+      {% endif %}
+    {% endfor %}
     {%- liquid
       if section.settings.menu != blank
         if section.settings.menu_type_desktop == 'dropdown'
           render 'header-dropdown-menu'
         elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
+          render 'header-mega-menu', selectd_menu: selectd_menu, subcategory_menu: subcategory_menu
         endif
       endif
     %}
@@ -357,7 +363,7 @@
 
     {%- liquid
       if section.settings.menu != blank
-        render 'header-drawer'
+        render 'header-drawer', selectd_menu: selectd_menu, subcategory_menu: subcategory_menu
       endif
     -%}
   </header>
@@ -510,6 +516,26 @@
   }
 </script>
 <script>
+ document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth >= 990) {
+    document.querySelectorAll('.header__inline-menu details').forEach((el) => {
+      let timeout;
+
+      el.addEventListener('mouseenter', () => {
+        clearTimeout(timeout);
+        el.setAttribute('open', true);
+      });
+
+      el.addEventListener('mouseleave', () => {
+        timeout = setTimeout(() => {
+          el.removeAttribute('open');
+        }, 300); // delay prevents flicker
+      });
+    });
+  }
+});
+</script>
+{% comment %} <script>
   let items = document.querySelector(".header__inline-menu").querySelectorAll("li");
   items.forEach(item => {
     item.addEventListener("mouseover", () => {
@@ -526,7 +552,7 @@
       }
     });
   });
-</script>
+</script> {% endcomment %}
 {%- if request.page_type == 'index' -%}
   {% assign potential_action_target = request.origin | append: routes.search_url | append: '?q={search_term_string}' %}
   <script type="application/ld+json">
@@ -798,6 +824,23 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "subcategory",
+      "name": "Subcategories",
+      "settings":[
+        {
+          "type": "link_list",
+          "id": "submenu",
+          "label": "subMenu"
+        },
+        {
+          "type": "text",
+          "id": "menu_title",
+          "label": "menu title",
+          "default": "Products"
+        }
+      ]
     },
     {
       "type": "menu",
