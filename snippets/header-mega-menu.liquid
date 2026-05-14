@@ -2,118 +2,287 @@
   Renders a megamenu for the header.
 
   Usage:
-  {% render 'header-mega-menu' %}
+  {% render 'header-mega-menu', selectd_menu: selectd_menu, subcategory_menu: subcategory_menu %}
+
+  Accepts:
+  - selectd_menu {String}    - The nav link title (lowercase) that should trigger the subcategory sidebar layout
+  - subcategory_menu {String} - The Shopify menu handle whose links populate the sidebar + panels
 {% endcomment %}
 
-<nav class="header__inline-menu mega--menu ">
+{% if selectd_menu != blank and subcategory_menu != blank %}
+  {% assign is_subcategory = true %}
+{% else %}
+  {% assign is_subcategory = false %}
+{% endif %}
+
+<nav class="header__inline-menu mega--menu">
   <ul class="list-menu list-menu--inline page-width" role="list">
     {%- for link in section.settings.menu.links -%}
+      {% assign link_title_lower = link.title | downcase %}
+
       <li>
-        {%- if link.links != blank -%}
+        {%- if link.links != blank or link_title_lower == selectd_menu -%}
           <header-menu>
             <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
               <summary
                 id="HeaderMenu-{{ link.handle }}"
                 class="header__menu-item list-menu__item link focus-inset"
               >
-                <span
-                  {%- if link.child_active %}
-                    class="header__active-menu-item"
-                  {% endif %}
-                >
+                <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>
                   {{- link.title | escape -}}
                 </span>
                 {{- 'icon-caret.svg' | inline_asset_content -}}
               </summary>
+
               <div
                 id="MegaMenu-Content-{{ forloop.index }}"
-                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
+                class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup{% if link_title_lower == selectd_menu %} mega-menu__content--subcategory{% endif %}"
                 tabindex="-1"
               >
-                <ul
-                  class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
-                  role="list"
-                >
-                  {%- for childlink in link.links -%}
-                    <li>
-                      <a
-                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                        href="{{ childlink.url }}"
-                        class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
-                        {% if childlink.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                      {%- if childlink.links != blank -%}
-                        <ul class="list-unstyled" role="list">
-                          {%- for grandchildlink in childlink.links -%}
-                            <li>
-                              <a
-                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                href="{{ grandchildlink.url }}"
-                                class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
-                                {% if grandchildlink.current %}
-                                  aria-current="page"
-                                {% endif %}
-                              >
-                                {{ grandchildlink.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                      {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                  {% for block in section.blocks %}
-                    {% assign menu_title = block.settings.menu_title | downcase | escape %}
-                    {% assign link_title = link.title | downcase | escape %}
-                    {% if menu_title == link_title %}
-                      <li>
-                      <div class="mega-menu-container" style="position: relative;">
-                        <div class="mega-menu__text">
-                          {% if block.settings.offer_title  != blank or block.settings.offer_subtitle != blank %}
-                            <div class="mega-menu__text-title" style="background-color: {{ block.settings.offer_bg_color | color_to_rgb |  remove: ')' }},{{ block.settings.bg_opacity }});">
-                              <p class="mega-menu__description" style="color: {{ block.settings.offer_text_color }};">{{ block.settings.offer_subtitle }}</p>
-                              <h2 class="mega-menu__title" style="color: {{ block.settings.offer_text_color }};">{{ block.settings.offer_title }}</h2>
+
+                {%- if link_title_lower == selectd_menu and is_subcategory -%}
+                  {%- comment -%} =============================================
+                    SUBCATEGORY SIDEBAR MEGAMENU LAYOUT
+                  ============================================= {%- endcomment -%}
+
+                  {% assign sub_menu = linklists[subcategory_menu] %}
+
+                  {%- liquid
+                    assign nav = linklists[subcategory_menu]
+
+                    assign default_l1 = 0
+                    for link in nav.links
+                      if link.active or link.current
+                        assign default_l1 = forloop.index0
+                        break
+                      endif
+                    endfor
+                  -%}
+
+                  
+                    <div class="medtech-mega-menu" role="navigation" aria-label="Category Menu">
+                      <div class="medtech-mm-l1-col medtech-mm-scrollable" id="medtech-mm-l1"></div>
+                      <div class="medtech-mm-l2-col medtech-mm-scrollable" id="medtech-mm-l2"></div>
+                      <div class="medtech-mm-l3-col"                       id="medtech-mm-l3"></div>
+                    </div>
+
+                    <script>
+                    (function () {
+
+                      /* ── 1. Menu data — Liquid outputs JSON at render time ── */
+                      const menuData = [
+                        {%- for l1 in nav.links -%}
+                          {%- unless forloop.first -%},{%- endunless %}
+                          {
+                            "label": {{ l1.title | json }},
+                            "url":   {{ l1.url   | json }},
+                            "children": [
+                              {%- for l2 in l1.links -%}
+                                {%- unless forloop.first -%},{%- endunless %}
+                                {
+                                  "label": {{ l2.title | json }},
+                                  "url":   {{ l2.url   | json }},
+                                  "children": [
+                                    {%- for l3 in l2.links -%}
+                                      {%- unless forloop.first -%},{%- endunless %}
+                                      {
+                                        "label": {{ l3.title | json }},
+                                        "url":   {{ l3.url   | json }}
+                                      }
+                                    {%- endfor -%}
+                                  ]
+                                }
+                              {%- endfor -%}
+                            ]
+                          }
+                        {%- endfor -%}
+                      ];
+
+                      /* ── 2. State ── */
+                      let activeL1 = {{ default_l1 }};
+                      let activeL2 = 0;
+
+                      const colL1 = document.getElementById('medtech-mm-l1');
+                      const colL2 = document.getElementById('medtech-mm-l2');
+                      const colL3 = document.getElementById('medtech-mm-l3');
+
+                      const chevSVG = `<span class="medtech-mm-chev"><svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12" fill="none"><path d="M1.41424 9.71029L5.60669 5.51785L1.50306 1.41422" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></span>`;
+
+                      /* ── 3. Render Level 1 ── */
+                      function renderL1() {
+                        colL1.innerHTML = menuData.map((item, i) => `
+                          <a class="medtech-mm-l1-item${i === activeL1 ? ' is-active' : ''}"
+                            href="${item.url}"
+                            data-i="${i}">
+                            <span>${item.label}</span>
+                            ${item.children.length ? chevSVG : ''}
+                          </a>
+                        `).join('');
+
+                        colL1.querySelectorAll('.medtech-mm-l1-item').forEach(el => {
+                          el.addEventListener('mouseenter', () => {
+                            const i = +el.dataset.i;
+                            if (i === activeL1) return;
+                            activeL1 = i;
+                            activeL2 = 0;
+                            renderL1();
+                            renderL2();
+                            renderL3();
+                          });
+                        });
+                      }
+
+                      /* ── 4. Render Level 2 ── */
+                      function renderL2() {
+                        const l1 = menuData[activeL1];
+                        if (!l1?.children?.length) {
+                          colL2.innerHTML = '<div class="medtech-mm-empty">No subcategories</div>';
+                          return;
+                        }
+
+                        colL2.innerHTML = l1.children.map((item, i) => `
+                          <a class="medtech-mm-l2-item${i === activeL2 ? ' is-active' : ''}"
+                            href="${item.url}"
+                            data-i="${i}">
+                            <span>${item.label}</span>
+                            ${item.children.length ? chevSVG : ''}
+                          </a>
+                        `).join('');
+
+                        colL2.querySelectorAll('.medtech-mm-l2-item').forEach(el => {
+                          el.addEventListener('mouseenter', () => {
+                            const i = +el.dataset.i;
+                            if (i === activeL2) return;
+                            activeL2 = i;
+                            renderL2();
+                            renderL3();
+                          });
+                        });
+                      }
+
+                      /* ── 5. Render Level 3 ── */
+                      function renderL3() {
+                        const l2 = menuData[activeL1]?.children?.[activeL2];
+                        if (!l2?.children?.length) {
+                          colL3.innerHTML = '<div class="medtech-mm-empty">No items in this category</div>';
+                          return;
+                        }
+
+                        colL3.innerHTML = `
+                          <div class="medtech-mm-l3-panel">
+                            <div class="medtech-mm-l3-header">${l2.label}</div>
+                            <div class="medtech-mm-l3-links">
+                              ${l2.children.map(c => `<a class="medtech-mm-l3-link" href="${c.url}">${c.label}</a>`).join('')}
                             </div>
-                          {% endif %}
-                          <div class="mega-menu-link featured-product_offer-link">
-                            <a href="{{ block.settings.offer_link }}" class="block" target="_blank" rel="noopener noreferrer">{{ block.settings.offer_button_text }}</a>
+                            <div class="medtech-mm-view-all">
+                              <a href="${l2.url}">View All ${l2.label} &rarr;</a>
+                            </div>
                           </div>
-                        </div>
-                        <img 
-                        class="mega-menu__image"
-                        src="{{block.settings.offer_image | img_url: '300x420' }}"
-                        srcset="{{block.settings.offer_image | img_url: '300x420' }} 300w,
-                                {{block.settings.offer_image | img_url: '600x840' }} 600w,
-                                {{block.settings.offer_image | img_url: '900x1260' }} 900w"
-                        alt="{{ link.title | escape }}"
-                        width="300"
-                        height="420">
-                      </div>
+                        `;
+                      }
+
+                      /* ── 6. Init ── */
+                      renderL1();
+                      renderL2();
+                      renderL3();
+
+                    })();
+                    </script>
+                  
+
+                {%- else -%}
+                  {%- comment -%} =============================================
+                    STANDARD MEGA MENU LAYOUT (unchanged)
+                  ============================================= {%- endcomment -%}
+
+                  <ul
+                    class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    role="list"
+                  >
+                    {%- for childlink in link.links -%}
+                      <li>
+                        <a
+                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                          href="{{ childlink.url }}"
+                          class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                          {% if childlink.current %}aria-current="page"{% endif %}
+                        >
+                          {{ childlink.title | escape }}
+                        </a>
+                        {%- if childlink.links != blank -%}
+                          <ul class="list-unstyled" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                  href="{{ grandchildlink.url }}"
+                                  class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                  {% if grandchildlink.current %}aria-current="page"{% endif %}
+                                >
+                                  {{ grandchildlink.title | escape }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
                       </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </div>
+                    {%- endfor -%}
+
+                    {% for block in section.blocks %}
+                      {% assign menu_title = block.settings.menu_title | downcase | escape %}
+                      {% assign link_title_esc = link.title | downcase | escape %}
+                      {% if menu_title == link_title_esc %}
+                        <li>
+                          <div class="mega-menu-container" style="position: relative;">
+                            <div class="mega-menu__text">
+                              {% if block.settings.offer_title != blank or block.settings.offer_subtitle != blank %}
+                                <div
+                                  class="mega-menu__text-title"
+                                  style="background-color: {{ block.settings.offer_bg_color | color_to_rgb | remove: ')' }},{{ block.settings.bg_opacity }});"
+                                >
+                                  <p class="mega-menu__description" style="color: {{ block.settings.offer_text_color }};">
+                                    {{ block.settings.offer_subtitle }}
+                                  </p>
+                                  <h2 class="mega-menu__title" style="color: {{ block.settings.offer_text_color }};">
+                                    {{ block.settings.offer_title }}
+                                  </h2>
+                                </div>
+                              {% endif %}
+                              <div class="mega-menu-link featured-product_offer-link">
+                                <a href="{{ block.settings.offer_link }}" class="block" target="_blank" rel="noopener noreferrer">
+                                  {{ block.settings.offer_button_text }}
+                                </a>
+                              </div>
+                            </div>
+                            <img
+                              class="mega-menu__image"
+                              src="{{ block.settings.offer_image | img_url: '300x420' }}"
+                              srcset="{{ block.settings.offer_image | img_url: '300x420' }} 300w,
+                                      {{ block.settings.offer_image | img_url: '600x840' }} 600w,
+                                      {{ block.settings.offer_image | img_url: '900x1260' }} 900w"
+                              alt="{{ link.title | escape }}"
+                              width="300"
+                              height="420"
+                            >
+                          </div>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+
+                {%- endif -%}
+              </div>{%- comment -%}/.mega-menu__content{%- endcomment -%}
             </details>
           </header-menu>
+
         {%- else -%}
           <a
             id="HeaderMenu-{{ link.handle }}"
             href="{{ link.url }}"
             class="header__menu-item list-menu__item link link--text focus-inset"
-            {% if link.current %}
-              aria-current="page"
-            {% endif %}
+            {% if link.current %}aria-current="page"{% endif %}
           >
-            <span
-              {%- if link.current %}
-                class="header__active-menu-item"
-              {% endif %}
-            >
+            <span {%- if link.current %} class="header__active-menu-item"{% endif %}>
               {{- link.title | escape -}}
             </span>
           </a>
