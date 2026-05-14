@@ -3955,3 +3955,198 @@ cart-items.loading::before {
     transform: rotate(360deg);
   }
 }
+
+/* Category menu css start */
+.medtech-mega-menu {
+    display: flex;
+    width: 100%;
+    height: min(500px, calc(60vh - 40px));
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    text-transform: none;
+    text-align: left;
+  }
+
+  /* ── Thin scrollbar — L1 & L2 columns ── */
+  .medtech-mm-scrollable {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+  }
+  .medtech-mm-scrollable::-webkit-scrollbar        { width: 4px; }
+  .medtech-mm-scrollable::-webkit-scrollbar-track  { background: transparent; }
+  .medtech-mm-scrollable::-webkit-scrollbar-thumb  { background: #ccc; border-radius: 4px; }
+  .medtech-mm-scrollable::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+  /* ── Level 1 ── */
+  .medtech-mm-l1-col {
+    width: 230px;
+    min-width: 230px;
+    border-right: 1px solid #e5e7eb;
+    background: #fff;
+  }
+
+  .medtech-mm-l1-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 9px 10px 9px 13px;
+    font-size: 13px;
+    color: #1a1a2e;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    line-height: 1.35;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    user-select: none;
+    text-decoration: none;
+    text-align: left;
+  }
+  .medtech-mm-l1-item:hover,
+  .medtech-mm-l1-item.is-active {
+    background: #eef4fb;
+    border-left-color: #2a6db5;
+    color: #1a72d5;
+    font-weight: 600;
+  }
+  .medtech-mm-l1-item .medtech-mm-chev {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #bbb;
+    line-height: 1;
+  }
+  .medtech-mm-l1-item:hover .medtech-mm-chev,
+  .medtech-mm-l1-item.is-active .medtech-mm-chev { color: #1a72d5; }
+
+  /* ── Level 2 ── */
+  .medtech-mm-l2-col {
+    width: 268px;
+    min-width: 268px;
+    border-right: 1px solid #e5e7eb;
+    background: #f9fafb;
+  }
+
+  .medtech-mm-l2-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 9px 10px 9px 13px;
+    font-size: 13px;
+    color: #1a1a2e;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    line-height: 1.35;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    user-select: none;
+    text-decoration: none;
+  }
+  .medtech-mm-l2-item:hover,
+  .medtech-mm-l2-item.is-active {
+    background: #eef4fb;
+    border-left-color: #2a6db5;
+    color: #1a72d5;
+    font-weight: 600;
+  }
+  .medtech-mm-l2-item .medtech-mm-chev {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: #bbb;
+    line-height: 1.35;
+  }
+  .medtech-mm-l2-item:hover .medtech-mm-chev,
+  .medtech-mm-l2-item.is-active .medtech-mm-chev { color: #1a72d5; }
+
+  /* ── Level 3 — fills remaining width & full height ── */
+  .medtech-mm-l3-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  /* flex column keeps View All pinned to the bottom */
+  .medtech-mm-l3-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px 20px;
+  }
+
+  .medtech-mm-l3-header {
+    flex-shrink: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #111827;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #e8f0fb;
+    text-align: left;
+  }
+
+  /* scrollable two-column layout */
+  .medtech-mm-l3-links {
+    flex: 1;
+    column-count: 2;
+    column-gap: 24px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+  }
+  .medtech-mm-l3-links::-webkit-scrollbar       { width: 4px; }
+  .medtech-mm-l3-links::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+
+  .medtech-mm-l3-link {
+    display: block;
+    padding: 5px 0;
+    font-size: 13px;
+    color: #374151;
+    text-decoration: none;
+    border-bottom: 1px solid #f3f4f6;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    line-height: 1.4;
+  }
+  .medtech-mm-l3-link:hover {
+    color: #1a72d5;
+    text-decoration: underline;
+  }
+
+  /* View All — margin-top: auto pins it to bottom */
+  .medtech-mm-view-all {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #e5e7eb;
+    text-align: right;
+  }
+  .medtech-mm-view-all a {
+    font-size: 13px;
+    color: #1a4e8a;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .medtech-mm-view-all a:hover {
+    color: #1a72d5;
+    text-decoration: underline;
+  }
+
+  /* Empty state */
+  .medtech-mm-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    font-size: 13px;
+    font-style: italic;
+    padding: 20px;
+    text-align: center;
+  }
+/* Category menu css end */
