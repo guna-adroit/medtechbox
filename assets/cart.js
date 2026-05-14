@@ -1,3 +1,4 @@
+//assets/cart.js
 // class CartRemoveButton extends HTMLElement {
 //   constructor() {
 //     super();
