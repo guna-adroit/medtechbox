@@ -15,7 +15,6 @@
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
         {{- collection.title | escape | split: ' ' | slice: 1, 100 | join: ' ' -}}
-        {% assign clean_title = collection.title | split: ' ' | slice: 1, 100 | join: ' ' %}
       </h1>
 
       {%- if section.settings.show_collection_description -%}
