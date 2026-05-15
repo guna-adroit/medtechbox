@@ -1,1 +1,618 @@
-{"sections":{"image_banner_new_y8FVC9":{"type":"image-banner-new","name":"Image Banner 1","settings":{"image":"shopify:\/\/shop_images\/New_MedTech-Marketplace_Hero-banner-1920px_x_486px.png","mobile-image":"shopify:\/\/shop_images\/New_MedTech-Marketplace_Hero-banner-1920px_x_486px.png","content_width":400,"content_alignment":"flex-start","text_alignment":"left","heading":"<p>MedTech – <br\/>Catalogued<\/p>","heading_font_size":42,"heading_font_weight":"600","custom-heading-font":false,"heading_font":"work_sans_n6","subheading":"<p><br\/>Search, Compare, Order Direct<br\/><br\/><\/p>","subheading_font_size":16,"subheading_font_weight":"600","custom-subheading-font":false,"subheading_font":"work_sans_n6","text_color":"#ffffff","button_text":"LEARN MORE","button_margin":1,"button_link":"shopify:\/\/pages\/about-us","button_size":"small","button_full_width":false,"button_font_weight":"900","button_color":"#ffffff","button_text_color":"#1ba5de","button_padding_vertical":4,"button_padding_horizontal":14,"button_radius":8,"button_alignment":"left","additional_layout":false,"button_below_text":"","below_text_font_weight":"600","font-size":12,"button_below_text_color":"#000000","link":""}},"custom_slideshow_ntKtYL":{"type":"custom-slideshow","blocks":{"slide_bnbCRn":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/medtech-marketplace-web-banners-1.png","mobile_image":"shopify:\/\/shop_images\/Header_banner.jpg","title":"","description":"","button_text":"","button_link":"shopify:\/\/collections\/medtech-marketplace-collection"}},"slide_Nx76Kd":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/MedTech-Marketplace_Web-Banners-_1.png","mobile_image":"shopify:\/\/shop_images\/Header_banner_1.png","title":"","description":"","button_text":"","button_link":"https:\/\/revolution-surgical.myshopify.com\/account\/login"}},"slide_md3Fnm":{"type":"slide","settings":{"image":"shopify:\/\/shop_images\/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png","mobile_image":"shopify:\/\/shop_images\/Header_banner.jpg","title":"","description":"","button_text":"","button_link":"https:\/\/shopify.com\/60548350050\/account\/orders"}},"slide_xzUAkH":{"type":"slide","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/Group_1000008036_791b3be3-77c4-4207-9182-2fe78ee21161.jpg","mobile_image":"shopify:\/\/shop_images\/Header_banner.jpg","title":"","description":"","button_text":"","button_link":""}}},"block_order":["slide_bnbCRn","slide_Nx76Kd","slide_md3Fnm","slide_xzUAkH"],"disabled":true,"settings":{}},"logo_list_slider_MrTPhx":{"type":"logo-list-slider","blocks":{"logo_HPEk3U":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_4.png","image_url":"","logo_height":60}},"logo_xpmMWM":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_3.png","image_url":"","logo_height":60}},"logo_ag8HfY":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_2_76e51676-3950-4b47-8404-88dd97e4213a.png","image_url":"","logo_height":60}},"logo_aTRY3N":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_1.png","image_url":"","logo_height":60}},"logo_AxPbCV":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006.png","image_url":"","logo_height":60}},"logo_A8KbTQ":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_2_76e51676-3950-4b47-8404-88dd97e4213a.png","image_url":"","logo_height":60}},"logo_ETM3j9":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/Group_1000008006_1.png","image_url":"","logo_height":60}}},"block_order":["logo_HPEk3U","logo_xpmMWM","logo_ag8HfY","logo_aTRY3N","logo_AxPbCV","logo_A8KbTQ","logo_ETM3j9"],"disabled":true,"settings":{"title":"","button_text":"","button_link":"","bg_color":"#f7f8f8","padding_top":25,"padding_bottom":25}},"featured_collection_slider_aqKLcH":{"type":"featured-collection-slider","settings":{"collection":"medtech-marketplace-collection","products_to_show":10,"title":"Featured Products","button_text":"View all featured products","button_link":"https:\/\/revolution-surgical.myshopify.com\/collections\/all","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":false,"view_all_style":"solid","color_scheme":"","image_ratio":"square","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":68,"padding_bottom":60,"show_offer":false,"offer_image":"shopify:\/\/shop_images\/dental-chair-and-other-accessories-during-modern-d-2024-10-18-06-15-18-utc.png","offer_subtitle":"Lorem Ipsum","offer_title":"25% Off","offer_button_text":"Shop Now","offer_button_link":"shopify:\/\/collections\/sale"}},"image_banner_new_UtmnQY":{"type":"image-banner-new","name":"Image Banner 2","settings":{"image":"shopify:\/\/shop_images\/MedTech-Marketplace_1_Hero-banner-1920px_x_486px.png","mobile-image":"shopify:\/\/shop_images\/MedTech-Marketplace_Web-Banners-_1.png","content_width":300,"content_alignment":"center","text_alignment":"left","heading":"<p>YOUR NETWORK,<\/p>","heading_font_size":36,"heading_font_weight":"400","custom-heading-font":false,"heading_font":"work_sans_n6","subheading":"<p>YOUR PRICE<\/p>","subheading_font_size":48,"subheading_font_weight":"800","custom-subheading-font":false,"subheading_font":"work_sans_n6","text_color":"#1ba5de","button_text":"LOG IN","button_margin":10,"button_link":"https:\/\/shopify.com\/60548350050\/account\/orders?locale=en&region_country=AU","button_size":"large","button_full_width":false,"button_font_weight":"600","button_color":"#1ba5de","button_text_color":"#ffffff","button_padding_vertical":6,"button_padding_horizontal":26,"button_radius":6,"button_alignment":"left","additional_layout":false,"button_below_text":"and unlock pricing exclusive to your health group.","below_text_font_weight":"600","font-size":12,"button_below_text_color":"#1ba5de","link":""}},"custom_image_with_text_UHrm4X":{"type":"custom-image-with-text","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/photographic-device-and-medical-equipment-used-in-2024-10-19-00-52-38-utc_ee2cf25d-15d5-48b4-b3ee-6501d874df85.png","image_alignment":"left","title":"MedTech Without the Side Effects..","subheading":"The intuitive platform that simplifies the way healthcare sources medical technology.","description":"","button_text":"Shop Now","button_link":"https:\/\/revolution-surgical.myshopify.com\/collections\/all","bg_color":"#545554","text_color":"#ffffff"}},"featured_collection_slider_LFdwUj":{"type":"featured-collection-slider","settings":{"collection":"medtech-marketplace-collection","products_to_show":10,"title":"Recommended Products","button_text":"View all recommended products","button_link":"https:\/\/revolution-surgical.myshopify.com\/collections\/all","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":6,"enable_desktop_slider":false,"full_width":false,"show_view_all":false,"view_all_style":"solid","color_scheme":"","image_ratio":"square","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":68,"padding_bottom":60,"show_offer":false,"offer_image":"shopify:\/\/shop_images\/dental-chair-and-other-accessories-during-modern-d-2024-10-18-07-15-04-utc.png","offer_subtitle":"Lorem Ipsum","offer_title":"25% Off","offer_button_text":"Shop Now","offer_button_link":"shopify:\/\/collections\/sale"}},"image_banner_new_N9TbAQ":{"type":"image-banner-new","name":"Image Banner 3","settings":{"image":"shopify:\/\/shop_images\/MedTech-Marketplace_3_Hero-banner-1920px_x_486px.png","mobile-image":"shopify:\/\/shop_images\/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png","content_width":240,"content_alignment":"flex-end","text_alignment":"right","heading":"<p>NO MORE<\/p>","heading_font_size":36,"heading_font_weight":"400","custom-heading-font":false,"heading_font":"work_sans_n6","subheading":"<p>'WHERE'S MY ORDER?'<\/p>","subheading_font_size":38,"subheading_font_weight":"800","custom-subheading-font":false,"subheading_font":"work_sans_n6","text_color":"#ffffff","button_text":"ORDER TRACKING","button_margin":10,"button_link":"https:\/\/shopify.com\/60548350050\/account\/orders","button_size":"large","button_full_width":true,"button_font_weight":"800","button_color":"#ffffff","button_text_color":"#1ba5de","button_padding_vertical":10,"button_padding_horizontal":20,"button_radius":6,"button_alignment":"center","additional_layout":true,"button_below_text":"from  pick to pack to patient","below_text_font_weight":"700","font-size":17,"button_below_text_color":"#ffffff","link":""}},"custom_image_banner_Ea7FxR":{"type":"custom-image-banner","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png","title":"MedTech Without the Side Effects.","subheading":"The intuitive platform that simplifies the way healthcare sources medical technology.","button_text":"Shop Now","button_link":"https:\/\/revolution-surgical.myshopify.com\/collections\/all","bg_color":"#444444","text_color":"#000000"}},"logo_list_slider_n3Fyhq":{"type":"logo-list-slider","blocks":{"logo_RzRr3r":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/image_366.png","image_url":"","logo_height":60}},"logo_YJHNLV":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/vincents.png","image_url":"","logo_height":60}},"logo_8Fzn4Y":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/brisbane-day-hospital.png","image_url":"","logo_height":55}},"logo_CaTzqq":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/thewomens.png","image_url":"","logo_height":50}},"logo_wRjbJb":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/perth_childrens.png","image_url":"","logo_height":60}},"logo_xJEekh":{"type":"logo","settings":{"image":"shopify:\/\/shop_images\/brisbane.png","image_url":"","logo_height":60}}},"block_order":["logo_RzRr3r","logo_YJHNLV","logo_8Fzn4Y","logo_CaTzqq","logo_wRjbJb","logo_xJEekh"],"disabled":true,"settings":{"title":"","button_text":"","button_link":"","bg_color":"#ffffff","padding_top":25,"padding_bottom":25}},"custom_image_with_text_EKTeh3":{"type":"custom-image-with-text","custom_css":[".mt-image-with-text__text-container h2 {font-size: 35px; line-height: normal;}","@media screen and (max-width: 768px) {.mt-image-with-text__text-container h2 {font-size: 24px !important; font-style: normal; font-weight: 800; line-height: normal; }}","@media screen and (min-width: 1601px) {.mt-image-with-text__text-block {\/* padding: 80px; padding-left: 70px; *\/ }}","@media screen and (min-width: 2001px) {.mt-image-with-text__text-block {\/* padding: 100px; padding-left: 180px; *\/ }}"],"settings":{"image":"shopify:\/\/shop_images\/blurry-view-of-drug-store-and-pharmacist-2024-11-28-06-00-44-utc.png","image_alignment":"right","title":"About Us","subheading":"","description":"Welcome to MedTech Marketplace — the e-commerce platform where MedTech treats Healthcare.   \n\nWe’re the unbiased site where hospitals, clinics, and buyers can navigate what matters: product specs, transparent pricing, quotes, delivery ETA’s and rep info — all in one central place. \n\nNo more time spent on hold with customer care. No more finding reps. Just transparent MedTech intel delivered with simplicity. \n\nMedTech Marketplace saves time wasted on products, so it can be given back to patients.","button_text":"Learn More","button_link":"shopify:\/\/pages\/about-us","bg_color":"#f9f9f9","text_color":"#222222"}},"icon_image_with_text_RpEEqW":{"type":"icon-image-with-text","blocks":{"icon_9xx9gX":{"type":"icon","settings":{"image":"shopify:\/\/shop_images\/mt-icon-1.svg","title":"Healthcare Supplies","description":"Trusted by clinicians, hospitals & private practices\nAccess a curated range of TGA-approved medical devices and consumables. We partner with leading brands to ensure you're stocked with the latest, most effective technologies in healthcare."}},"icon_b7ER3H":{"type":"icon","settings":{"image":"shopify:\/\/shop_images\/mt-icon-cart.svg","title":"Secure Checkout","description":"Simple. Fast. Protected.\nOur encrypted checkout platform keeps your transactions safe and your data secure. Buy with confidence using major payment gateways and institutional purchasing workflows."}},"icon_cfGgE9":{"type":"icon","settings":{"image":"shopify:\/\/shop_images\/mt-icon-box.svg","title":"Prompt Delivery","description":"Rapid shipping, nationwide.\nFrom urgent clinical orders to routine stock replenishments, we guarantee timely dispatch and delivery. Real-time tracking and express shipping options available."}},"icon_zJqR9G":{"type":"icon","settings":{"image":"shopify:\/\/shop_images\/mt-icon-shield.svg","title":"Quality Guarantee","description":"We stand by every product we list.\nAll listings are vetted for compliance, performance, and reliability. Our satisfaction guarantee means we’ll make it right if your order isn’t up to standard."}}},"block_order":["icon_9xx9gX","icon_b7ER3H","icon_cfGgE9","icon_zJqR9G"],"settings":{}},"collapsible_content_kpWMJ3":{"type":"collapsible-content","blocks":{"collapsible_row_9CJ9KN":{"type":"collapsible_row","settings":{"heading":"1. What is MedTech Marketplace?","icon":"none","row_content":"<p>MedTech Marketplace is an online platform designed to help access MedTech directly companies. It provides easier procurement, transparent pricing, and the ability to connect with reps and suppliers quickly.<\/p>","page":""}},"collapsible_row_rpymcm":{"type":"collapsible_row","settings":{"heading":"2. Who can use MedTech Marketplace?","icon":"none","row_content":"<p>Is a central place for Healthcare providers and institutions (or even everyday Australians) to transact with MedTech industry. Browse products, generate quotes, and track orders, interact with MedTech suppliers and more.<\/p>","page":""}},"collapsible_row_D4Jrgi":{"type":"collapsible_row","settings":{"heading":"3. How does pricing work?","icon":"none","row_content":"<p>Pricing shown on MedTech Marketplace reflects your hospital group’s negotiated rates. After sign-in, you will see the specific pricing available to your institution.<\/p>","page":""}},"collapsible_row_QzyteG":{"type":"collapsible_row","settings":{"heading":"4. Can hospitals sell surplus or expiring stock?","icon":"none","row_content":"<p>Yes. Hospitals can list products they no longer need, are nearing expiry, or have already expired. MedTech Marketplace helps connect sellers with potential buyers, reducing wastage and supporting sustainability.<\/p>","page":""}},"collapsible_row_TQcT8p":{"type":"collapsible_row","settings":{"heading":"5. How do I connect with my local rep?","icon":"none","row_content":"<p>The “Find My Rep” feature lets you instantly identify and contact your local product representative for support, training, or urgent requirements.<\/p>","page":""}},"collapsible_row_t6bwqY":{"type":"collapsible_row","settings":{"heading":"6. Is MedTech Marketplace secure?","icon":"none","row_content":"<p>Yes. All transactions and data are handled securely with encrypted systems. Your procurement and patient data remain protected at all times.<\/p>","page":""}},"collapsible_row_QMiRda":{"type":"collapsible_row","settings":{"heading":"7. How do suppliers list their products?","icon":"none","row_content":"<p>Suppliers can apply to list their products by contacting the MedTech Marketplace team at <a href=\"mailto:support@medtech-marketplace.com\" title=\"mailto:support@medtech-marketplace.com\">support@medtech-marketplace.com<\/a>. The platform focuses on challenger companies with innovative solutions that offer value to hospitals.<\/p>","page":""}},"collapsible_row_JPA7UQ":{"type":"collapsible_row","settings":{"heading":"8. Does MedTech Marketplace integrate with hospital systems?","icon":"none","row_content":"<p>Yes. Orders, quotes, and tracking information can be exported to support your existing procurement processes. Custom integrations are available for larger hospital groups on request.<\/p>","page":""}}},"block_order":["collapsible_row_9CJ9KN","collapsible_row_rpymcm","collapsible_row_D4Jrgi","collapsible_row_QzyteG","collapsible_row_TQcT8p","collapsible_row_t6bwqY","collapsible_row_QMiRda","collapsible_row_JPA7UQ"],"settings":{"caption":"","heading":"FAQs","heading_size":"h1","heading_alignment":"left","layout":"none","container_color_scheme":"scheme-1","color_scheme":"scheme-d55dfb25-7cff-48be-b2c2-769f350142c6","open_first_collapsible_row":false,"image_ratio":"adapt","desktop_layout":"image_second","padding_top":56,"padding_bottom":52}}},"order":["image_banner_new_y8FVC9","custom_slideshow_ntKtYL","logo_list_slider_MrTPhx","featured_collection_slider_aqKLcH","image_banner_new_UtmnQY","custom_image_with_text_UHrm4X","featured_collection_slider_LFdwUj","image_banner_new_N9TbAQ","custom_image_banner_Ea7FxR","logo_list_slider_n3Fyhq","custom_image_with_text_EKTeh3","icon_image_with_text_RpEEqW","collapsible_content_kpWMJ3"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner_new_y8FVC9": {
+      "type": "image-banner-new",
+      "name": "Image Banner 1",
+      "settings": {
+        "content_width": 400,
+        "content_alignment": "flex-start",
+        "text_alignment": "left",
+        "heading": "<p>MedTech – <br/>Catalogued</p>",
+        "heading_font_size": 42,
+        "heading_font_weight": "600",
+        "custom-heading-font": false,
+        "heading_font": "work_sans_n6",
+        "subheading": "<p><br/>Search, Compare, Order Direct<br/><br/></p>",
+        "subheading_font_size": 16,
+        "subheading_font_weight": "600",
+        "custom-subheading-font": false,
+        "subheading_font": "work_sans_n6",
+        "text_color": "#ffffff",
+        "button_text": "LEARN MORE",
+        "button_margin": 1,
+        "button_link": "shopify://pages/about-us",
+        "button_size": "small",
+        "button_full_width": false,
+        "button_font_weight": "900",
+        "button_color": "#ffffff",
+        "button_text_color": "#1ba5de",
+        "button_padding_vertical": 4,
+        "button_padding_horizontal": 14,
+        "button_radius": 8,
+        "button_alignment": "left",
+        "additional_layout": false,
+        "button_below_text": "",
+        "below_text_font_weight": "600",
+        "font-size": 12,
+        "button_below_text_color": "#000000",
+        "link": ""
+      }
+    },
+    "custom_slideshow_ntKtYL": {
+      "type": "custom-slideshow",
+      "blocks": {
+        "slide_bnbCRn": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/medtech-marketplace-web-banners-1.png",
+            "mobile_image": "shopify://shop_images/Header_banner.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "",
+            "button_link": "shopify://collections/medtech-marketplace-collection"
+          }
+        },
+        "slide_Nx76Kd": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/MedTech-Marketplace_Web-Banners-_1.png",
+            "mobile_image": "shopify://shop_images/Header_banner_1.png",
+            "title": "",
+            "description": "",
+            "button_text": "",
+            "button_link": "https://revolution-surgical.myshopify.com/account/login"
+          }
+        },
+        "slide_md3Fnm": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png",
+            "mobile_image": "shopify://shop_images/Header_banner.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "",
+            "button_link": "https://shopify.com/60548350050/account/orders"
+          }
+        },
+        "slide_xzUAkH": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008036_791b3be3-77c4-4207-9182-2fe78ee21161.jpg",
+            "mobile_image": "shopify://shop_images/Header_banner.jpg",
+            "title": "",
+            "description": "",
+            "button_text": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_bnbCRn",
+        "slide_Nx76Kd",
+        "slide_md3Fnm",
+        "slide_xzUAkH"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "logo_list_slider_MrTPhx": {
+      "type": "logo-list-slider",
+      "blocks": {
+        "logo_HPEk3U": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_4.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_xpmMWM": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_3.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_ag8HfY": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_2_76e51676-3950-4b47-8404-88dd97e4213a.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_aTRY3N": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_1.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_AxPbCV": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_A8KbTQ": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_2_76e51676-3950-4b47-8404-88dd97e4213a.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_ETM3j9": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Group_1000008006_1.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        }
+      },
+      "block_order": [
+        "logo_HPEk3U",
+        "logo_xpmMWM",
+        "logo_ag8HfY",
+        "logo_aTRY3N",
+        "logo_AxPbCV",
+        "logo_A8KbTQ",
+        "logo_ETM3j9"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "button_text": "",
+        "button_link": "",
+        "bg_color": "#f7f8f8",
+        "padding_top": 25,
+        "padding_bottom": 25
+      }
+    },
+    "featured_collection_slider_aqKLcH": {
+      "type": "featured-collection-slider",
+      "settings": {
+        "collection": "42312201-sutures",
+        "products_to_show": 10,
+        "title": "Featured Products",
+        "button_text": "View all featured products",
+        "button_link": "https://revolution-surgical.myshopify.com/collections/all",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 68,
+        "padding_bottom": 60,
+        "show_offer": false,
+        "offer_image": "shopify://shop_images/dental-chair-and-other-accessories-during-modern-d-2024-10-18-06-15-18-utc.png",
+        "offer_subtitle": "Lorem Ipsum",
+        "offer_title": "25% Off",
+        "offer_button_text": "Shop Now",
+        "offer_button_link": "shopify://collections/sale"
+      }
+    },
+    "image_banner_new_UtmnQY": {
+      "type": "image-banner-new",
+      "name": "Image Banner 2",
+      "settings": {
+        "image": "shopify://shop_images/MedTech-Marketplace_1_Hero-banner-1920px_x_486px.png",
+        "mobile-image": "shopify://shop_images/MedTech-Marketplace_Web-Banners-_1.png",
+        "content_width": 300,
+        "content_alignment": "center",
+        "text_alignment": "left",
+        "heading": "<p>YOUR NETWORK,</p>",
+        "heading_font_size": 36,
+        "heading_font_weight": "400",
+        "custom-heading-font": false,
+        "heading_font": "work_sans_n6",
+        "subheading": "<p>YOUR PRICE</p>",
+        "subheading_font_size": 48,
+        "subheading_font_weight": "800",
+        "custom-subheading-font": false,
+        "subheading_font": "work_sans_n6",
+        "text_color": "#1ba5de",
+        "button_text": "LOG IN",
+        "button_margin": 10,
+        "button_link": "https://shopify.com/60548350050/account/orders?locale=en&region_country=AU",
+        "button_size": "large",
+        "button_full_width": false,
+        "button_font_weight": "600",
+        "button_color": "#1ba5de",
+        "button_text_color": "#ffffff",
+        "button_padding_vertical": 6,
+        "button_padding_horizontal": 26,
+        "button_radius": 6,
+        "button_alignment": "left",
+        "additional_layout": false,
+        "button_below_text": "and unlock pricing exclusive to your health group.",
+        "below_text_font_weight": "600",
+        "font-size": 12,
+        "button_below_text_color": "#1ba5de",
+        "link": ""
+      }
+    },
+    "custom_image_with_text_UHrm4X": {
+      "type": "custom-image-with-text",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/photographic-device-and-medical-equipment-used-in-2024-10-19-00-52-38-utc_ee2cf25d-15d5-48b4-b3ee-6501d874df85.png",
+        "image_alignment": "left",
+        "title": "MedTech Without the Side Effects..",
+        "subheading": "The intuitive platform that simplifies the way healthcare sources medical technology.",
+        "description": "",
+        "button_text": "Shop Now",
+        "button_link": "https://revolution-surgical.myshopify.com/collections/all",
+        "bg_color": "#545554",
+        "text_color": "#ffffff"
+      }
+    },
+    "featured_collection_slider_LFdwUj": {
+      "type": "featured-collection-slider",
+      "settings": {
+        "collection": "42312201-sutures",
+        "products_to_show": 10,
+        "title": "Recommended Products",
+        "button_text": "View all recommended products",
+        "button_link": "https://revolution-surgical.myshopify.com/collections/all",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "columns_desktop": 6,
+        "enable_desktop_slider": false,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 68,
+        "padding_bottom": 60,
+        "show_offer": false,
+        "offer_image": "shopify://shop_images/dental-chair-and-other-accessories-during-modern-d-2024-10-18-07-15-04-utc.png",
+        "offer_subtitle": "Lorem Ipsum",
+        "offer_title": "25% Off",
+        "offer_button_text": "Shop Now",
+        "offer_button_link": "shopify://collections/sale"
+      }
+    },
+    "image_banner_new_N9TbAQ": {
+      "type": "image-banner-new",
+      "name": "Image Banner 3",
+      "settings": {
+        "image": "shopify://shop_images/MedTech-Marketplace_3_Hero-banner-1920px_x_486px.png",
+        "mobile-image": "shopify://shop_images/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png",
+        "content_width": 240,
+        "content_alignment": "flex-end",
+        "text_alignment": "right",
+        "heading": "<p>NO MORE</p>",
+        "heading_font_size": 36,
+        "heading_font_weight": "400",
+        "custom-heading-font": false,
+        "heading_font": "work_sans_n6",
+        "subheading": "<p>'WHERE'S MY ORDER?'</p>",
+        "subheading_font_size": 38,
+        "subheading_font_weight": "800",
+        "custom-subheading-font": false,
+        "subheading_font": "work_sans_n6",
+        "text_color": "#ffffff",
+        "button_text": "ORDER TRACKING",
+        "button_margin": 10,
+        "button_link": "https://shopify.com/60548350050/account/orders",
+        "button_size": "large",
+        "button_full_width": true,
+        "button_font_weight": "800",
+        "button_color": "#ffffff",
+        "button_text_color": "#1ba5de",
+        "button_padding_vertical": 10,
+        "button_padding_horizontal": 20,
+        "button_radius": 6,
+        "button_alignment": "center",
+        "additional_layout": true,
+        "button_below_text": "from  pick to pack to patient",
+        "below_text_font_weight": "700",
+        "font-size": 17,
+        "button_below_text_color": "#ffffff",
+        "link": ""
+      }
+    },
+    "custom_image_banner_Ea7FxR": {
+      "type": "custom-image-banner",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/AnyConv.com__MedTech_Marketplace_Web_Banners_1.png",
+        "title": "MedTech Without the Side Effects.",
+        "subheading": "The intuitive platform that simplifies the way healthcare sources medical technology.",
+        "button_text": "Shop Now",
+        "button_link": "https://revolution-surgical.myshopify.com/collections/all",
+        "bg_color": "#444444",
+        "text_color": "#000000"
+      }
+    },
+    "logo_list_slider_n3Fyhq": {
+      "type": "logo-list-slider",
+      "blocks": {
+        "logo_RzRr3r": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/image_366.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_YJHNLV": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/vincents.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_8Fzn4Y": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/brisbane-day-hospital.png",
+            "image_url": "",
+            "logo_height": 55
+          }
+        },
+        "logo_CaTzqq": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/thewomens.png",
+            "image_url": "",
+            "logo_height": 50
+          }
+        },
+        "logo_wRjbJb": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/perth_childrens.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        },
+        "logo_xJEekh": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/brisbane.png",
+            "image_url": "",
+            "logo_height": 60
+          }
+        }
+      },
+      "block_order": [
+        "logo_RzRr3r",
+        "logo_YJHNLV",
+        "logo_8Fzn4Y",
+        "logo_CaTzqq",
+        "logo_wRjbJb",
+        "logo_xJEekh"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "",
+        "button_text": "",
+        "button_link": "",
+        "bg_color": "#ffffff",
+        "padding_top": 25,
+        "padding_bottom": 25
+      }
+    },
+    "custom_image_with_text_EKTeh3": {
+      "type": "custom-image-with-text",
+      "custom_css": [
+        ".mt-image-with-text__text-container h2 {font-size: 35px; line-height: normal;}",
+        "@media screen and (max-width: 768px) {.mt-image-with-text__text-container h2 {font-size: 24px !important; font-style: normal; font-weight: 800; line-height: normal; }}",
+        "@media screen and (min-width: 1601px) {.mt-image-with-text__text-block {/* padding: 80px; padding-left: 70px; */ }}",
+        "@media screen and (min-width: 2001px) {.mt-image-with-text__text-block {/* padding: 100px; padding-left: 180px; */ }}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/blurry-view-of-drug-store-and-pharmacist-2024-11-28-06-00-44-utc.png",
+        "image_alignment": "right",
+        "title": "About Us",
+        "subheading": "",
+        "description": "Welcome to MedTech Marketplace — the e-commerce platform where MedTech treats Healthcare.   \n\nWe’re the unbiased site where hospitals, clinics, and buyers can navigate what matters: product specs, transparent pricing, quotes, delivery ETA’s and rep info — all in one central place. \n\nNo more time spent on hold with customer care. No more finding reps. Just transparent MedTech intel delivered with simplicity. \n\nMedTech Marketplace saves time wasted on products, so it can be given back to patients.",
+        "button_text": "Learn More",
+        "button_link": "shopify://pages/about-us",
+        "bg_color": "#f9f9f9",
+        "text_color": "#222222"
+      }
+    },
+    "icon_image_with_text_RpEEqW": {
+      "type": "icon-image-with-text",
+      "blocks": {
+        "icon_9xx9gX": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/mt-icon-1.svg",
+            "title": "Healthcare Supplies",
+            "description": "Trusted by clinicians, hospitals & private practices\nAccess a curated range of TGA-approved medical devices and consumables. We partner with leading brands to ensure you're stocked with the latest, most effective technologies in healthcare."
+          }
+        },
+        "icon_b7ER3H": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/mt-icon-cart.svg",
+            "title": "Secure Checkout",
+            "description": "Simple. Fast. Protected.\nOur encrypted checkout platform keeps your transactions safe and your data secure. Buy with confidence using major payment gateways and institutional purchasing workflows."
+          }
+        },
+        "icon_cfGgE9": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/mt-icon-box.svg",
+            "title": "Prompt Delivery",
+            "description": "Rapid shipping, nationwide.\nFrom urgent clinical orders to routine stock replenishments, we guarantee timely dispatch and delivery. Real-time tracking and express shipping options available."
+          }
+        },
+        "icon_zJqR9G": {
+          "type": "icon",
+          "settings": {
+            "image": "shopify://shop_images/mt-icon-shield.svg",
+            "title": "Quality Guarantee",
+            "description": "We stand by every product we list.\nAll listings are vetted for compliance, performance, and reliability. Our satisfaction guarantee means we’ll make it right if your order isn’t up to standard."
+          }
+        }
+      },
+      "block_order": [
+        "icon_9xx9gX",
+        "icon_b7ER3H",
+        "icon_cfGgE9",
+        "icon_zJqR9G"
+      ],
+      "settings": {}
+    },
+    "collapsible_content_kpWMJ3": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_9CJ9KN": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "1. What is MedTech Marketplace?",
+            "icon": "none",
+            "row_content": "<p>MedTech Marketplace is an online platform designed to help access MedTech directly companies. It provides easier procurement, transparent pricing, and the ability to connect with reps and suppliers quickly.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_rpymcm": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "2. Who can use MedTech Marketplace?",
+            "icon": "none",
+            "row_content": "<p>Is a central place for Healthcare providers and institutions (or even everyday Australians) to transact with MedTech industry. Browse products, generate quotes, and track orders, interact with MedTech suppliers and more.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_D4Jrgi": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "3. How does pricing work?",
+            "icon": "none",
+            "row_content": "<p>Pricing shown on MedTech Marketplace reflects your hospital group’s negotiated rates. After sign-in, you will see the specific pricing available to your institution.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QzyteG": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "4. Can hospitals sell surplus or expiring stock?",
+            "icon": "none",
+            "row_content": "<p>Yes. Hospitals can list products they no longer need, are nearing expiry, or have already expired. MedTech Marketplace helps connect sellers with potential buyers, reducing wastage and supporting sustainability.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_TQcT8p": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "5. How do I connect with my local rep?",
+            "icon": "none",
+            "row_content": "<p>The “Find My Rep” feature lets you instantly identify and contact your local product representative for support, training, or urgent requirements.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_t6bwqY": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "6. Is MedTech Marketplace secure?",
+            "icon": "none",
+            "row_content": "<p>Yes. All transactions and data are handled securely with encrypted systems. Your procurement and patient data remain protected at all times.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_QMiRda": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "7. How do suppliers list their products?",
+            "icon": "none",
+            "row_content": "<p>Suppliers can apply to list their products by contacting the MedTech Marketplace team at <a href=\"mailto:support@medtech-marketplace.com\" title=\"mailto:support@medtech-marketplace.com\">support@medtech-marketplace.com</a>. The platform focuses on challenger companies with innovative solutions that offer value to hospitals.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_JPA7UQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "8. Does MedTech Marketplace integrate with hospital systems?",
+            "icon": "none",
+            "row_content": "<p>Yes. Orders, quotes, and tracking information can be exported to support your existing procurement processes. Custom integrations are available for larger hospital groups on request.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_9CJ9KN",
+        "collapsible_row_rpymcm",
+        "collapsible_row_D4Jrgi",
+        "collapsible_row_QzyteG",
+        "collapsible_row_TQcT8p",
+        "collapsible_row_t6bwqY",
+        "collapsible_row_QMiRda",
+        "collapsible_row_JPA7UQ"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "FAQs",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "none",
+        "container_color_scheme": "scheme-1",
+        "color_scheme": "scheme-d55dfb25-7cff-48be-b2c2-769f350142c6",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 56,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "image_banner_new_y8FVC9",
+    "custom_slideshow_ntKtYL",
+    "logo_list_slider_MrTPhx",
+    "featured_collection_slider_aqKLcH",
+    "image_banner_new_UtmnQY",
+    "custom_image_with_text_UHrm4X",
+    "featured_collection_slider_LFdwUj",
+    "image_banner_new_N9TbAQ",
+    "custom_image_banner_Ea7FxR",
+    "logo_list_slider_n3Fyhq",
+    "custom_image_with_text_EKTeh3",
+    "icon_image_with_text_RpEEqW",
+    "collapsible_content_kpWMJ3"
+  ]
+}
