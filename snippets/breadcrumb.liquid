@@ -75,7 +75,7 @@
       {%- when 'collection' and collection.handle -%}
         {%- if current_tags -%}
           <span class="breadcrumbs__item">
-             {{ collection.title | link_to: collection.url }}
+             {{ collection.title | split: ' ' | slice: 1, 100 | join: ' ' | link_to: collection.url }}
           </span>
           <span class="breadcrumbs__item">
             {%- capture tag_url -%}{{ collection.url }}/{{ current_tags | join: "+"}}{%- endcapture -%}
@@ -83,7 +83,7 @@
           </span>
         {%- else -%}
           <span class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="{{ collection.url }}" aria-current="page"> {{ collection.title }}</a>
+            <a class="breadcrumbs__link" href="{{ collection.url }}" aria-current="page"> {{ collection.title | split: ' ' | slice: 1, 100 | join: ' ' }}</a>
           </span>
         {%- endif -%}
       {%- when 'blog' -%}
