@@ -65,7 +65,7 @@
       {%- when 'product' -%}
         {%- if collection.url -%}
           <span class="breadcrumbs__item collection">
-            {{ collection.title | link_to: collection.url }}
+            {{ collection.title | split: ' ' | slice: 1, 100 | join: ' ' | link_to: collection.url }}
           </span>
           <span>/ </span>
         {%- endif -%}
