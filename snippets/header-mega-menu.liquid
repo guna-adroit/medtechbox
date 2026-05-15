@@ -86,7 +86,7 @@
                                     {%- for l3 in l2.links -%}
                                       {%- unless forloop.first -%},{%- endunless %}
                                       {
-                                        "label": {{ l3.title | json }},
+                                        "label": {{ l3.title | split: ' ' | slice: 1, 100 | join: ' ' | json }},
                                         "url":   {{ l3.url   | json }}
                                       }
                                     {%- endfor -%}
