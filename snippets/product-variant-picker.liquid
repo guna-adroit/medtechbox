@@ -96,7 +96,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   if (document.referrer.includes('filter.v.')) {
   console.log('User came from filtered collection');
-}
   const variantSection = document.querySelector('variant-selects');
   if (!variantSection) return;
 
@@ -161,5 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+}
 });
 </script>
