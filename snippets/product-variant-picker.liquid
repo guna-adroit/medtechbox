@@ -102,11 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const variantInput = document.querySelector('[name="id"]');
   const selects = variantSection.querySelectorAll('select');
   if (document.referrer.includes('filter.v.')) {
-  console.log('User came from filtered collection',document.referrer);
-  variantSection.style.display = "none";
-}
-else{
-  console.log('User didnot came from filtered collection',document.referrer);
+  console.log('User came from filtered collection');
+    variantSection.style.display = "none";
+  }
+  else{
   // Disable Add to Cart initially
   if (addButton) {
     addButton.disabled = true;
