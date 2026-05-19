@@ -92,3 +92,78 @@
     </script>
   </variant-selects>
 {%- endunless -%}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+      
+  const variantSection = document.querySelector('variant-selects');
+  if (!variantSection) return;
+
+  const addButton = document.querySelector('[name="add"]');
+  const variantInput = document.querySelector('[name="id"]');
+  const selects = variantSection.querySelectorAll('select');
+  if (document.referrer.includes('filter.v.')) {
+  console.log('User came from filtered collection', document.referrer);
+  variantSection.style.display = "none";
+}
+else{
+  console.log('User didnot came from filtered collection', document.referrer);
+  // Disable Add to Cart initially
+  if (addButton) {
+    addButton.disabled = true;
+    // addButton.textContent = 'Select a variant';
+  }
+
+  // Add "Select..." placeholder to dropdowns if not present
+  selects.forEach(select => {
+    const hasBlank = Array.from(select.options).some(opt => opt.value === '');
+    if (!hasBlank) {
+      const blankOption = new Option('Select an option', '', true, true);
+      select.insertBefore(blankOption, select.firstChild);
+    }
+    select.value = '';
+  });
+
+  // Clear variant input value (so no default variant is set)
+  if (variantInput) variantInput.value = '';
+
+  // Handle dropdown changes
+  selects.forEach(select => {
+    select.addEventListener('change', () => {
+      const allSelected = Array.from(selects).every(sel => sel.value !== '');
+
+      if (allSelected) {
+        // Construct the currently selected options
+        const selectedOptions = Array.from(selects).map(sel => sel.value);
+
+        // Use Dawn's internal variant data to find the matching variant
+        const productData = variantSection.dataset.product
+          ? JSON.parse(variantSection.dataset.product)
+          : null;
+
+        if (productData && productData.variants) {
+          const matchedVariant = productData.variants.find(variant =>
+            JSON.stringify(variant.options) === JSON.stringify(selectedOptions)
+          );
+
+          if (matchedVariant) {
+            if (variantInput) variantInput.value = matchedVariant.id;
+
+            // Enable Add to Cart
+            addButton.disabled = false;
+            addButton.textContent = 'Add to cart';
+          } else {
+            addButton.disabled = true;
+            addButton.textContent = 'Unavailable';
+          }
+        }
+      } else {
+        // Not all options selected
+        addButton.disabled = true;
+        // addButton.textContent = 'Select a variant';
+        if (variantInput) variantInput.value = '';
+      }
+    });
+  });
+}
+});
+</script>
