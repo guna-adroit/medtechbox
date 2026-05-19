@@ -92,7 +92,7 @@
     </script>
   </variant-selects>
 {%- endunless -%}
-<script>
+{% comment %} <script>
 document.addEventListener('DOMContentLoaded', () => {
       
   const variantSection = document.querySelector('variant-selects');
@@ -165,4 +165,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 }
 });
-</script>
+</script> {% endcomment %}
