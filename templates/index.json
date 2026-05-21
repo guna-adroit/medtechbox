@@ -227,7 +227,7 @@
     "featured_collection_slider_aqKLcH": {
       "type": "featured-collection-slider",
       "settings": {
-        "collection": "42312201-sutures",
+        "collection": "featured-collection",
         "products_to_show": 10,
         "title": "Featured Products",
         "button_text": "View all featured products",
@@ -318,7 +318,7 @@
     "featured_collection_slider_LFdwUj": {
       "type": "featured-collection-slider",
       "settings": {
-        "collection": "42312201-sutures",
+        "collection": "featured-collection",
         "products_to_show": 10,
         "title": "Recommended Products",
         "button_text": "View all recommended products",
