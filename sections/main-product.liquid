@@ -111,7 +111,7 @@
                     {%  assign meta_brand = product.metafields.product.brand.value %}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
                     {% comment %} <a href="{{ meta_brand.brand_collection.value.url }}" class="product__vendor"> {% endcomment %}
-                    <a href="{{ meta_brand.brand_collection.value.url }}" {{ collection.title }} class="product__vendor">
+                    <a href="{{ meta_brand.brand_collection.value.url }}" {{ collection.title }} class="product__vendor new">
                       {% if meta_brand.logo %}
                         <img src="{{ meta_brand.logo | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
                       {% else %}
