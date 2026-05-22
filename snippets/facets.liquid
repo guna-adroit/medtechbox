@@ -137,7 +137,6 @@
                     </facet-remove>
                   {%- endfor -%}
                   {% if filter.type == 'price_range' %}
-                    YES
                     {% assign min = filter.min_value.value %}
                     {% assign max = filter.max_value.value %}
                     {%- if min != null or max != null -%}
