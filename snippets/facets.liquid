@@ -123,6 +123,8 @@
                   </facet-remove>
                 </div>
                 {%- for filter in results.filters -%}
+                    {{ filter.type }}
+
                   {%- for value in filter.active_values -%}
                     <facet-remove>
                       <a href="{{ value.url_to_remove }}" class="active-facets__button active-facets__button--light">
@@ -135,7 +137,6 @@
                         </span>
                       </a>
                     </facet-remove>
-                    {{ filter.type }}
                   {%- endfor -%}
                   {% if filter.type == 'price_range' %}
                     {% assign min = filter.min_value.value %}
