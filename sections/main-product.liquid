@@ -105,7 +105,7 @@
                   {% render block %}
                 {%- when 'text' -%}
                   {% for collection in product.collections %}
-                        <a href ="{{ collections[collection.handle].url }}">{{ collection.title }}</a><br/>
+                        <a href ="{{ collections[collection.handle].url }}">{{ collection.hanlde }}</a><br/>
                      {% endfor %}
                   <p
                     class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
