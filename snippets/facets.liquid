@@ -135,6 +135,7 @@
                         </span>
                       </a>
                     </facet-remove>
+                    {{ filter.type }}
                   {%- endfor -%}
                   {% if filter.type == 'price_range' %}
                     {% assign min = filter.min_value.value %}
