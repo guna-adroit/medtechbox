@@ -119,7 +119,7 @@
                         {{ product.vendor | escape }}
                       {% endif %}
                     </a>
-                    <img src="{{- seller_collection_logo -}}">
+                    <img src="{{- seller_collection_logo | img_url: '120x120' -}}">
                   </p>
                 {%- when 'title' -%}
                   <div class="product__title" {{ block.shopify_attributes }}>
