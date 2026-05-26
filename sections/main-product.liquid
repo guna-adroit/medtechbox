@@ -118,8 +118,8 @@
                       {% else %}
                         {{ product.vendor | escape }}
                       {% endif %}
-                      {{- seller_collection_logo -}}
                     </a>
+                    <a href="{{- seller_collection_logo -}}">LOGO</a>
                   </p>
                 {%- when 'title' -%}
                   <div class="product__title" {{ block.shopify_attributes }}>
