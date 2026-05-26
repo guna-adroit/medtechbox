@@ -107,11 +107,11 @@
                   <p
                     class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
-                    {%  assign meta_brand = product.metafields.product.brand.value %}
+                    {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
-                    <a href="{{ meta_brand.brand_collection.value.url }}" class="product__vendor">
+                    <a href="{{ collectons['meta_brand.sellercollectionhandle'].url }}" class="product__vendor">
                       {% if meta_brand.logo %}
-                        <img src="{{ meta_brand.logo | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
+                        <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
                       {% else %}
                         {{ product.vendor | escape }}
                       {% endif %}
