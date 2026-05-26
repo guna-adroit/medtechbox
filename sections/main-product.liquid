@@ -110,11 +110,11 @@
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
                     <a href="{{ collectons['meta_brand.sellercollectionhandle'].url }}" class="product__vendor">
-                      {% if meta_brand.logo %}
+                      {% comment %} {% if meta_brand.logo %}
                         <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
-                      {% else %}
+                      {% else %} {% endcomment %}
                         {{ product.vendor | escape }}
-                      {% endif %}
+                      {% comment %} {% endif %} {% endcomment %}
                     </a>
                   </p>
                 {%- when 'title' -%}
