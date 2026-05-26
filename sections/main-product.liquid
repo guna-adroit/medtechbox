@@ -109,11 +109,11 @@
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {%- assign seller_collection_handle = meta_brand.sellercollectionhandle -%}
-                    {%- assign seller_collection_url = collections['precise-medical-supplies'].url -%}
                     {%- assign seller_collection_url1 = collections['seller_collection_handle'].url -%}
+                    {%- assign seller_collection_url = collections['precise-medical-supplies'].url -%}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
-                     <p>{{- seller_collection_url -}}</p>
-                     <p>{{- seller_collection_url1 -}}</p>
+                     <p>{{- seller_collection_handle -}}</p>
+                     <p>precise-medical-supplies</p>
                     <a href="{{- collections['seller_collection_handle'].url -}}" class="product__vendor">
                       {% comment %} {% if meta_brand.logo %}
                         <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
