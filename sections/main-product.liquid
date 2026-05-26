@@ -116,7 +116,7 @@
                       {% if meta_brand.logo %}
                         <img src="{{ seller_collection_logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
                       {% else %}
-                        {{ product.vendor | escape }}
+                        {{ product.vendor | escape }} -- {{ seller_collection_logo }}
                       {% endif %}
                     </a>
                   </p>
