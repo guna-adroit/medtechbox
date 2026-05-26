@@ -109,7 +109,7 @@
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
-                     //{{collectons['meta_brand.sellercollectionhandle'].title }}
+                     //{{ collections['meta_brand.sellercollectionhandle'].title }}
                     <a href="{{ collectons['meta_brand.sellercollectionhandle'].url }}" class="product__vendor">
                       {% comment %} {% if meta_brand.logo %}
                         <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
