@@ -109,14 +109,15 @@
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {%- assign seller_collection_handle = meta_brand.sellercollectionhandle -%}
+                    {%- assign seller_collection_logo = meta_brand.logo -%}
                     {%- assign seller_collection_url = collections[seller_collection_handle].url -%}
                      
                     <a href="{{- seller_collection_url -}}" class="product__vendor">
-                      {% comment %} {% if meta_brand.logo %}
-                        <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
-                      {% else %} {% endcomment %}
+                      {% if meta_brand.logo %}
+                        <img src="{{ seller_collection_logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
+                      {% else %}
                         {{ product.vendor | escape }}
-                      {% comment %} {% endif %} {% endcomment %}
+                      {% endif %}
                     </a>
                   </p>
                 {%- when 'title' -%}
