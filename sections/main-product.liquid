@@ -109,7 +109,7 @@
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {%- assign seller_collection_handle = meta_brand.sellercollectionhandle -%}
-                    {%- assign seller_collection_logo = meta_brand.logo -%}
+                    {%- assign seller_collection_logo = meta_brand.logo.value -%}
                     {%- assign seller_collection_url = collections[seller_collection_handle].url -%}
                      
                     <a href="{{- seller_collection_url -}}" class="product__vendor">
@@ -118,7 +118,7 @@
                       {% else %}
                         {{ product.vendor | escape }}
                       {% endif %}
-                      {{- seller_collection_logo.value -}}
+                      {{- seller_collection_logo -}}
                     </a>
                   </p>
                 {%- when 'title' -%}
