@@ -110,16 +110,8 @@
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {%- assign seller_collection_handle = meta_brand.sellercollectionhandle -%}
                     {%- assign seller_collection_url = collections['seller_collection_handle'].url -%}
-                    {%- assign seller_collection_url1 = 'precise-medical-supplies' -%}
-                    {% comment %} {{- block.settings.text -}} {% endcomment %}
-                     <p>{{- seller_collection_handle -}}</p>
-                     <p>{{- seller_collection_url1 -}}</p>
-                     {% if seller_collection_handle == seller_collection_url1 %}
-                     SAME
-                      {% else %}
-                        DIFFERENT
-                     {% endif %}
-                    <a href="{{- collections[seller_collection_url1].url -}}" class="product__vendor">
+                     
+                    <a href="{{- collections[seller_collection_url].url -}}" class="product__vendor">
                       {% comment %} {% if meta_brand.logo %}
                         <img src="{{ meta_brand.logo.url | img_url: '120x120' }}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
                       {% else %} {% endcomment %}
