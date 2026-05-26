@@ -108,7 +108,7 @@
                     class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
-                    {%-  assign seller_collection_handle = meta_brand.sellercollectionhandle | strip -%}
+                    {%-  assign seller_collection_handle = meta_brand.sellercollectionhandle -%}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
                      --{{- seller_collection_handle -}}--
                     <a href="{{- collectons['seller_collection_handle'].url -}}" class="product__vendor">
