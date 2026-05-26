@@ -112,7 +112,7 @@
                     {%- assign seller_collection_url1 = collections['seller_collection_handle'].url -%}
                     {%- assign seller_collection_url = collections['precise-medical-supplies'].url -%}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
-                     <p>{{- seller_collection_handle -}}</p>
+                     <p>{{- seller_collection_handle | json -}}</p>
                      <p>precise-medical-supplies</p>
                     <a href="{{- collections['seller_collection_handle'].url -}}" class="product__vendor">
                       {% comment %} {% if meta_brand.logo %}
