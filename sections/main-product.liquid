@@ -114,12 +114,11 @@
                      
                     <a href="{{- seller_collection_url -}}" class="product__vendor">
                       {% if meta_brand.logo %}
-                        <img src="{{- seller_collection_logo | img_url: '120x120' -}}" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
+                        <img src="{{- seller_collection_logo -}}" height="20px" alt="{{ meta_brand.brand_name | escape }}" class="product__vendor-image" loading="lazy">
                       {% else %}
                         {{ product.vendor | escape }}
                       {% endif %}
                     </a>
-                    <img src="{{- seller_collection_logo | img_url: '120x120' -}}">
                   </p>
                 {%- when 'title' -%}
                   <div class="product__title" {{ block.shopify_attributes }}>
