@@ -109,7 +109,7 @@
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
                     {{ meta_brand.sellercollectionhandle | json }}<br/>
-                    {{ collections['meta_brand.sellercollectionhandle'] | json }}
+                    {{ collections['meta_brand.sellercollectionhandle'].title | json }}
 
                     {%  assign seller_collection_handle = meta_brand.sellercollectionhandle %}
                     {% comment %} {{- block.settings.text -}} {% endcomment %}
