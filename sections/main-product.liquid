@@ -108,7 +108,7 @@
                     class="product__text inline-richtext{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
                     {{ block.shopify_attributes }} style="padding-bottom: 8px;">
                     {%  assign meta_brand = product.metafields.custom.seller.value %}
-                    {{ meta_brand.sellercollectionhandle.value | json }}<br/>
+                    {{ meta_brand.sellercollectionhandle.value }}<br/>
                     {{ collections['meta_brand.sellercollectionhandle'] | json }}
 
                     {%  assign seller_collection_handle = meta_brand.sellercollectionhandle %}
