@@ -61,6 +61,9 @@ class CartRemoveButton extends HTMLElement {
         if (newCartItems && currentCartItems) {
           currentCartItems.replaceWith(newCartItems);
           this.reactivateScripts(newCartItems);
+          if (typeof window.initVendorNoteInputs === 'function') {
+            window.initVendorNoteInputs();
+          }
         }
 
         // 4. Replace footer — blocks will be populated this time
@@ -277,6 +280,10 @@ class CartItems extends HTMLElement {
           if (cartFooter) cartFooter.classList.toggle('is-empty', parsedState.item_count === 0);
           if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
+          var poSnapshot = (typeof window.snapshotVendorNoteValues === 'function')
+          ? window.snapshotVendorNoteValues()
+          : {};
+
           this.getSectionsToRender().forEach((section) => {
             const elementToReplace =
               document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
@@ -285,6 +292,11 @@ class CartItems extends HTMLElement {
               section.selector
             );
           });
+
+          if (typeof window.initVendorNoteInputs === 'function') {
+            window.initVendorNoteInputs(poSnapshot);
+          }
+          
           const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
           let message = '';
           if (items.length === parsedState.items.length && updatedValue !== parseInt(quantityElement.value)) {
