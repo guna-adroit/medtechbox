@@ -84,9 +84,6 @@
                                   "url":   {{ l2.url   | json }},
                                   "children": [
                                     {%- for l3 in l2.links -%}
-                                        {% assign words = l3.title | split: ' ' %}
-                                        {% assign first_word = words[0] %}
-                                        {% assign is_number = first_word | times: 1 | append: '' %}
                                       {%- unless forloop.first -%},{%- endunless %}
                                       {
                                         "label": {{ l3.title | split: ' ' | slice: 1, 100 | join: ' ' | json }},
