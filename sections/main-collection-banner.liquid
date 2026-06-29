@@ -14,7 +14,14 @@
     <div class="collection-hero__text-wrapper">
       <h1 class="collection-hero__title">
         <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape | split: ' ' | slice: 1, 100 | join: ' ' -}}
+        {%- assign col_words = collection.title | escape | split: ' ' -%}
+        {%- assign col_first = col_words[0] -%}
+        {%- assign col_first_num = col_first | plus: 0 | append: '' -%}
+        {%- if col_first_num == col_first -%}
+          {{- col_words | slice: 1, 100 | join: ' ' -}}
+        {%- else -%}
+          {{- collection.title | escape -}}
+        {%- endif -%}
       </h1>
 
       {%- if section.settings.show_collection_description -%}
