@@ -89,7 +89,7 @@
                                         {% assign is_number = first_word | times: 1 | append: '' %}
                                       {%- unless forloop.first -%},{%- endunless %}
                                       {
-                                        "label": {% if is_number == first_word %}{{ words | slice: 1, 100 | join: ' ' }}{% else %}{{ l3.title }}{% endif %},
+                                        "label": {{ l3.title | split: ' ' | slice: 1, 100 | join: ' ' | json }},
                                         "url":   {{ l3.url   | json }}
                                       }
                                     {%- endfor -%}
