@@ -82,8 +82,16 @@
             <a class="breadcrumbs__link" href="{{ tag_url }}" aria-current="page"> {{ current_tags | join: " + "}}</a>
           </span>
         {%- else -%}
+          {%- assign col_words = collection.title | escape | split: ' ' -%}
+        {%- assign col_first = col_words[0] -%}
+        {%- assign col_first_num = col_first | plus: 0 | append: '' -%}
+        {%- if col_first_num == col_first -%}
+          {%- assign coll_title = col_words | slice: 1, 100 | join: ' ' -%}
+        {%- else -%}
+          {%- assign coll_title = collection.title | escape -%}
+        {%- endif -%}
           <span class="breadcrumbs__item">
-            <a class="breadcrumbs__link" href="{{ collection.url }}" aria-current="page"> {{ collection.title | split: ' ' | slice: 1, 100 | join: ' ' }}</a>
+            <a class="breadcrumbs__link" href="{{ collection.url }}" aria-current="page"> {{ coll_title }}</a>
           </span>
         {%- endif -%}
       {%- when 'blog' -%}
