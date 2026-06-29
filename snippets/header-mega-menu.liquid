@@ -85,9 +85,16 @@
                                   "children": [
                                     {%- for l3 in l2.links -%}
                                       {%- unless forloop.first -%},{%- endunless %}
+                                      {%- assign l3_words = l3.title | split: ' ' -%}
+                                      {%- assign l3_first = l3_words[0] -%}
+                                      {%- assign l3_first_num = l3_first | plus: 0 | append: '' -%}
                                       {
-                                        "label": {{ l3.title | split: ' ' | slice: 1, 100 | join: ' ' | json }},
-                                        "url":   {{ l3.url   | json }}
+                                        {%- if l3_first_num == l3_first -%}
+                                          "label": {{ l3_words | slice: 1, 100 | join: ' ' | json }},
+                                        {%- else -%}
+                                          "label": {{ l3.title | json }},
+                                        {%- endif -%}
+                                        "url": {{ l3.url | json }}
                                       }
                                     {%- endfor -%}
                                   ]
@@ -187,7 +194,7 @@
                       renderL3();
 
                     })();
-                    </script>
+                  </script>
                   
 
                 {%- else -%}
